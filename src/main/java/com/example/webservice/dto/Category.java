@@ -3,15 +3,12 @@ package com.example.webservice.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
+import java.util.Set;
 
 @Getter
 @Setter
-public class Product {
-
+public class Category {
+    private Long id;
     private String name;
-    private BigDecimal price;
-    private Category category;
-
 
 }
