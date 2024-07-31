@@ -22,8 +22,7 @@ public class ProductController {
         List<Category> categoryList = productFeignClient.getAllCategories();
         model.addAttribute("products", products);
         model.addAttribute("category", categoryList);
-
-        return "products";
+        return "products/products";
     }
 
 
@@ -31,7 +30,7 @@ public class ProductController {
     public String showAddProductForm(Model model) {
         model.addAttribute("product", new Product());
         model.addAttribute("categories", productFeignClient.getAllCategories());
-        return "newproducts";
+        return "products/newproducts";
     }
 
     @PostMapping("/products/add")
@@ -44,13 +43,26 @@ public class ProductController {
     public String getCategories(Model model) {
         List<Category> categories = productFeignClient.getAllCategories();
         model.addAttribute("categories", categories);
-        return "categories";
+        return "category/categories";
     }
 
     @GetMapping("/products/category/{categoryId}")
     public String getProductsByCategory(@PathVariable Long categoryId, Model model) {
         List<Product> products = productFeignClient.getProductsByCategory(categoryId);
         model.addAttribute("products", products);
-        return "products";
+        return "products/products";
     }
+    @GetMapping("/categories/new")
+    public String showAddCategoryForm(Model model) {
+        model.addAttribute("category", new Category());
+        return "category/newcategory";
+    }
+    @PostMapping("/categories/add")
+    public String saveCategory(@ModelAttribute Category category) {
+        productFeignClient.saveCategory(category);
+        return "redirect:/categories";
+    }
+
+
+
 }
