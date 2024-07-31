@@ -62,6 +62,18 @@ public class ProductController {
         productFeignClient.saveCategory(category);
         return "redirect:/categories";
     }
+    // Methods for deleting products and categories
+//    @PostMapping("/products/delete/{id}")
+//    public String deleteProduct(@PathVariable Long id) {
+//        productFeignClient.deleteProductById(id);
+//        return "redirect:/products";
+//    }
+//
+//    @PostMapping("/categories/delete/{id}")
+//    public String deleteCategory(@PathVariable Long id) {
+//        productFeignClient.deleteCategoryById(id);
+//        return "redirect:/categories";
+//    }
 
 
 

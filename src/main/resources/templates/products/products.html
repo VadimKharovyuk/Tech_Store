@@ -8,27 +8,46 @@
 <body>
 
 <div class="container mt-4">
+
     <h1>Products</h1>
+    <a href="/products/new"> new Product</a>
+
+    <!-- Display a message if no products are found -->
     <div th:if="${products.isEmpty()}">
         <p>No products found in this category.</p>
     </div>
+
+    <!-- Display the table if there are products -->
     <div th:if="${!products.isEmpty()}">
         <table class="table">
             <thead>
             <tr>
                 <th>Name</th>
                 <th>Price</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
+            <!-- Iterate over the products and create a row for each product -->
             <tr th:each="product : ${products}">
                 <td th:text="${product.name}">Product Name</td>
                 <td th:text="${product.price}">Product Price</td>
+                <td>
+<!--                    <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post">-->
+<!--                        <input type="hidden" name="_method" value="post" />-->
+<!--                        <button type="submit" class="btn btn-danger">Delete</button>-->
+<!--                    </form>-->
+                </td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
+
+<!-- Optionally include Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>
