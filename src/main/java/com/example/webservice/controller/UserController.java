@@ -2,6 +2,7 @@ package com.example.webservice.controller;
 
 import com.example.webservice.dto.UserDTO;
 import com.example.webservice.repository.UserFeignClient;
+import feign.FeignException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,31 +18,32 @@ public class UserController {
 
     private final UserFeignClient userFeignClient;
 
-//    @GetMapping("/login")
-//    public String loginForm(Model model){
-//        model.addAttribute("userDto", new UserDTO());
-//        return "user/Login";
-//    }
-@GetMapping("/login")
-public String loginForm(Model model){
-    model.addAttribute("userDto", new UserDTO());
-    return "user/Login";
-}
-
+    @GetMapping("/login")
+    public String loginForm(Model model) {
+        model.addAttribute("userDto", new UserDTO());
+        return "user/Login";
+    }
     @PostMapping("/login")
     public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
-        ResponseEntity<String> response = userFeignClient.login(username, password);
+        try {
+            ResponseEntity<String> response = userFeignClient.login(username, password);
 
-        if (response.getStatusCode() == HttpStatus.OK) {
-            model.addAttribute("message", "Login successful");
-            return "redirect:/users";
-        } else {
-            model.addAttribute("error", "Invalid credentials");
-            return "user/Login";
+            if (response.getStatusCode() == HttpStatus.OK) {
+                model.addAttribute("message", "Login successful");
+                return "redirect:/";
+            } else {
+                model.addAttribute("error", "Invalid credentials");
+                return "redirect:/";
+            }
+        } catch (FeignException e) {
+            model.addAttribute("error", "Login failed: " + e.getMessage());
+            return "redirect:/";
         }
     }
+
+
     @GetMapping("/register")
-    public String registerFrom(Model model){
+    public String registerFrom(Model model) {
         model.addAttribute("userDto", new UserDTO());
         return "user/register";
     }

@@ -1,5 +1,6 @@
 package com.example.webservice.repository;
 
+import com.example.webservice.config.FeignConfig;
 import com.example.webservice.dto.UserDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "SECURITYSERVIS")
+//@FeignClient(name = "SECURITYSERVIS")
+@FeignClient(name = "SECURITYSERVIS", configuration = FeignConfig.class)
 public interface UserFeignClient {
 
     @GetMapping("/api/users")
@@ -30,7 +32,13 @@ public interface UserFeignClient {
 
     @GetMapping("/api/users/is-blocked")
     Boolean isBlocked(@RequestParam String username);
+
+
+
     @PostMapping("/api/users/login")
     ResponseEntity<String> login(@RequestParam String username, @RequestParam String password);
+
+
 }
+
 
