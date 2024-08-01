@@ -1,6 +1,7 @@
 package com.example.webservice.dto;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
@@ -8,9 +9,7 @@ import lombok.Setter;
 public class UserDTO {
     private Long id;
     private String username;
-    private String email;
     private String password;
-    private String role;
-    private boolean blocked;
-
+    private String email;
+ 
 }

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@FeignClient(name = "SECURITYSERVIS")
 @FeignClient(name = "SECURITYSERVIS", configuration = FeignConfig.class)
 public interface UserFeignClient {
 
