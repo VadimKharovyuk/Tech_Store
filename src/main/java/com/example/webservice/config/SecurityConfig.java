@@ -21,7 +21,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/register", "/login").permitAll()
 
-                        .requestMatchers("/categories/**", "/account").authenticated()
+                        .requestMatchers("/categories/**", "/account/**","users/change-password").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
@@ -30,7 +30,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout=true")
+                        .logoutSuccessUrl("/")
                         .permitAll()
                 )
                 .csrf().disable(); // Отключение CSRF, если это необходимо

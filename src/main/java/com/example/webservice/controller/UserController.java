@@ -153,14 +153,14 @@ public class UserController {
         return "users"; // Имя HTML-шаблона для отображения списка пользователей
     }
 
-    @PostMapping("/users/change-password")
-    public String changePassword(
-            @RequestParam String username,
-            @RequestParam String currentPassword,
-            @RequestParam String newPassword) {
-        userFeignClient.changePassword(username, currentPassword, newPassword);
-        return "redirect:/users";
-    }
+//    @PostMapping("/users/change-password")
+//    public String changePassword(
+//            @RequestParam String username,
+//            @RequestParam String currentPassword,
+//            @RequestParam String newPassword) {
+//        userFeignClient.changePassword(username, currentPassword, newPassword);
+//        return "redirect:/users";
+//    }
 
     @PostMapping("/users/block/{userId}")
     public String blockUser(@PathVariable Long userId) {
