@@ -26,7 +26,7 @@ public interface ProductFeignClient {
     Category saveCategory(@RequestBody Category category);
 
 
-    @DeleteMapping("/api/products/product/{id}")
+    @PostMapping("/api/products/delete/{id}")
     void deleteProductById(@PathVariable Long id);
 
     @PostMapping("/api/products/delete/category/{id}")

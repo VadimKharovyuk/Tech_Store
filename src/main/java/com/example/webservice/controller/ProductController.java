@@ -64,7 +64,7 @@ public class ProductController {
         return "redirect:/categories";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @PostMapping("/products/delete/{id}")
     public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         productFeignClient.deleteProductById(id);
         redirectAttributes.addFlashAttribute("message", "Product deleted successfully");

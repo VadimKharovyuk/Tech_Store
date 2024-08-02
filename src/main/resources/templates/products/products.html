@@ -82,6 +82,7 @@
                     <div class="card-body">
                         <h5 class="card-title" th:text="${product.name}">Product Name</h5>
                         <p class="card-text" th:text="${product.price}">Product Price</p>
+
                         <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post">
                             <input type="hidden" name="_method" value="DELETE" />
                             <button type="submit" class="btn btn-danger">Delete</button>
