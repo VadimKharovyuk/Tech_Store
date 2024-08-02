@@ -9,6 +9,6 @@ public class ErrorConfig implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError() {
-        return "error"; // имя HTML-шаблона для страницы ошибок
+        return "error";
     }
 }
