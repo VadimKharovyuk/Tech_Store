@@ -11,6 +11,7 @@ import java.util.List;
 @FeignClient(name = "SECURITYSERVIS", configuration = FeignConfig.class)
 public interface UserFeignClient {
 
+
     @GetMapping("/api/users")
     List<UserDTO> getAllUsers();
 
@@ -37,6 +38,9 @@ public interface UserFeignClient {
     ResponseEntity<String> login(@RequestParam String username, @RequestParam String password);
 
 
+
+    @PostMapping("/api/password/reset-password")
+    ResponseEntity<String> sendEmailPassword(@RequestParam String email, String newPassword);
 }
 
 
