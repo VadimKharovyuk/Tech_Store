@@ -1,3 +1,41 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Личный кабинет</title>-->
+<!--    <style>-->
+<!--        .card {-->
+<!--            border: 1px solid #ccc;-->
+<!--            border-radius: 5px;-->
+<!--            padding: 16px;-->
+<!--            margin: 16px 0;-->
+<!--            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
+<!--            max-width: 400px;-->
+<!--        }-->
+<!--        .card h2 {-->
+<!--            margin-top: 0;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Добро пожаловать, <span th:text="${username}">Пользователь</span>!</h1>-->
+<!--<p>Это ваш личный кабинет.</p>-->
+<!--<p><a href="/">На главную</a></p>-->
+<!--<form action="/logout" method="post">-->
+<!--    <button type="submit" class="button button-danger">Выйти</button>-->
+<!--</form>-->
+
+<!--&lt;!&ndash; Карточка для смены пароля &ndash;&gt;-->
+<!--<div class="card">-->
+<!--    <h2>Смена пароля</h2>-->
+<!--    <p>Перейдите по ссылке ниже, чтобы изменить ваш пароль:</p>-->
+<!--    <a href="/change-password">Сменить пароль</a>-->
+<!--</div>-->
+
+
+<!--&lt;!&ndash; Добавьте другие элементы личного кабинета здесь &ndash;&gt;-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -31,6 +69,14 @@
     <p>Перейдите по ссылке ниже, чтобы изменить ваш пароль:</p>
     <a href="/change-password">Сменить пароль</a>
 </div>
+
+<!-- Карточка для администраторов -->
+<div th:if="${isAdmin}" class="card">
+    <h2>Администрирование</h2>
+    <p>Перейдите по ссылке ниже для управления администрированием:</p>
+    <a href="/admin">Перейти в админку</a>
+</div>
+
 
 
 <!-- Добавьте другие элементы личного кабинета здесь -->
