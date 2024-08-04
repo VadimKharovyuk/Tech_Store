@@ -34,9 +34,11 @@ public interface UserFeignClient {
     Boolean isBlocked(@RequestParam String username);
 
 
-    @PostMapping("/api/users/login")
-    ResponseEntity<String> login(@RequestParam String username, @RequestParam String password);
+    //    @PostMapping("/api/users/login")
+//    ResponseEntity<String> login(@RequestParam String username, @RequestParam String password);
 
+    @PostMapping("/api/users/login")
+    ResponseEntity<UserDTO> login(@RequestParam String username, @RequestParam String password);
 
 
     @PostMapping("/api/password/reset-password")

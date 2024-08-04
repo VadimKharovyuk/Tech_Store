@@ -116,23 +116,41 @@ public class UserController {
         return "user/Login";
     }
 
-    @PostMapping("/login")
-    public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
-        try {
-            ResponseEntity<String> response = userFeignClient.login(username, password);
+//    @PostMapping("/login")
+//    public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
+//        try {
+//            ResponseEntity<String> response = userFeignClient.login(username, password);
+//
+//            if (response.getStatusCode() == HttpStatus.OK) {
+//                model.addAttribute("message", "Login successful");
+//                return "redirect:/";
+//            } else {
+//                model.addAttribute("error", "Invalid credentials");
+//                return "redirect:/login";
+//            }
+//        } catch (FeignException e) {
+//            model.addAttribute("error", "Login failed: " + e.getMessage());
+//            return "redirect:/login";
+//        }
+//    }
+@PostMapping("/login")
+public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
+    try {
+        ResponseEntity<UserDTO> response = userFeignClient.login(username, password);
 
-            if (response.getStatusCode() == HttpStatus.OK) {
-                model.addAttribute("message", "Login successful");
-                return "redirect:/";
-            } else {
-                model.addAttribute("error", "Invalid credentials");
-                return "redirect:/login";
-            }
-        } catch (FeignException e) {
-            model.addAttribute("error", "Login failed: " + e.getMessage());
-            return "redirect:/login";
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+            model.addAttribute("message", "Login successful");
+            return "redirect:/"; // Переход на главную страницу или другую страницу после успешного входа
+        } else {
+            model.addAttribute("error", "Invalid credentials");
+            return "user/Login"; // Отображение страницы входа с ошибкой
         }
+    } catch (FeignException e) {
+        model.addAttribute("error", "Login failed: " + e.getMessage());
+        return "user/Login"; // Отображение страницы входа с ошибкой
     }
+}
+
 
     @GetMapping("/register")
     public String registerForm(Model model) {

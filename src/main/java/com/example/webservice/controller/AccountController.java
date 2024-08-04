@@ -1,5 +1,6 @@
 package com.example.webservice.controller;
 
+import com.example.webservice.dto.UserDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
@@ -31,10 +32,19 @@ public String accountUser(Model model) {
     boolean isAdmin = authentication.getAuthorities().stream()
             .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
 
-    model.addAttribute("username", username);
-    model.addAttribute("isAdmin", isAdmin);
+    // Пример создания объекта UserDTO и добавления его в модель
+    UserDTO userDTO = new UserDTO();
+    userDTO.setUsername(username);
+    userDTO.setRole(isAdmin ? "ADMIN" : "USER"); // Пример присвоения роли
+
+    model.addAttribute("user", userDTO);
+    model.addAttribute("name", username);
+
     return "account/account";
 }
+
+
+
 
 
 

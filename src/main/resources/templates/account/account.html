@@ -1,3 +1,4 @@
+
 <!--<!DOCTYPE html>-->
 <!--<html xmlns:th="http://www.thymeleaf.org">-->
 <!--<head>-->
@@ -18,9 +19,13 @@
 <!--    </style>-->
 <!--</head>-->
 <!--<body>-->
-<!--<h1>Добро пожаловать, <span th:text="${username}">Пользователь</span>!</h1>-->
+<!--<h1>Добро пожаловать, <span th:text="${name}">Пользователь</span>!</h1>-->
 <!--<p>Это ваш личный кабинет.</p>-->
 <!--<p><a href="/">На главную</a></p>-->
+
+<!--<div th:if="${user.role.equals('ADMIN')}" class="admin-link">-->
+<!--    <a href="products/add">Добавить продукт</a>-->
+<!--</div>-->
 <!--<form action="/logout" method="post">-->
 <!--    <button type="submit" class="button button-danger">Выйти</button>-->
 <!--</form>-->
@@ -33,58 +38,77 @@
 <!--</div>-->
 
 
-<!--&lt;!&ndash; Добавьте другие элементы личного кабинета здесь &ndash;&gt;-->
+
 <!--</body>-->
 <!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <meta charset="UTF-8">
     <title>Личный кабинет</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
         .card {
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 16px;
             margin: 16px 0;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
         }
         .card h2 {
             margin-top: 0;
         }
+        .admin-link {
+            margin-top: 20px;
+        }
+
+        .button-danger {
+            background-color: #dc3545;
+        }
+        .button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
-<h1>Добро пожаловать, <span th:text="${username}">Пользователь</span>!</h1>
-<p>Это ваш личный кабинет.</p>
-<p><a href="/">На главную</a></p>
-<form action="/logout" method="post">
-    <button type="submit" class="button button-danger">Выйти</button>
-</form>
+<div class="container">
+    <h1>Добро пожаловать, <span th:text="${name}">Пользователь</span>!</h1>
+    <p>Это ваш личный кабинет.</p>
+    <p><a href="/">На главную</a></p>
 
-<!-- Карточка для смены пароля -->
-<div class="card">
-    <h2>Смена пароля</h2>
-    <p>Перейдите по ссылке ниже, чтобы изменить ваш пароль:</p>
-    <a href="/change-password">Сменить пароль</a>
+    <div th:if="${user.role.equals('ADMIN')}" class="admin-link">
+        <a href="products/add">Добавить продукт</a>
+    </div>
+    <form action="/logout" method="post">
+        <button type="submit" class="button button-danger">Выйти</button>
+    </form>
+
+
+    <!-- Карточка для смены пароля -->
+    <div class="card">
+        <h2>Смена пароля</h2>
+        <p>Перейдите по ссылке ниже, чтобы изменить ваш пароль:</p>
+        <a href="/change-password">Сменить пароль</a>
+    </div>
 </div>
-
-
-
-
-<!--<div th:if="${isAdmin}" class="card">-->
-<!--    <h2>Администраторская информация</h2>-->
-<!--    <p>Здесь можно добавить информацию или действия, доступные только администраторам.</p>-->
-<!--</div>-->
-<div class="card admin-only" th:if="${isAdmin}">
-    <h2>Административные функции</h2>
-    <p>Доступны только администраторам.</p>
-</div>
-<div th:if="${!isAdmin}">
-    <p>Вы не имеете прав администратора.</p>
-</div>
-
-
 </body>
 </html>
