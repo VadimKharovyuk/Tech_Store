@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ Панель</title>
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 16px;
+            margin: 16px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+<h1>Админ Панель</h1>
+<p>Добро пожаловать в админ панель.</p>
+<div class="card">
+    <h2>Управление пользователями</h2>
+    <a href="/admin/users">Управление пользователями</a>
+</div>
+<div class="card">
+    <h2>Управление продуктами</h2>
+    <a href="/admin/products">Управление продуктами</a>
+</div>
+<!-- Добавьте другие элементы админ панели здесь -->
+<p><a href="/account">Назад в личный кабинет</a></p>
+</body>
+</html>

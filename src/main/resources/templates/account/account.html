@@ -96,7 +96,7 @@
     <p><a href="/">На главную</a></p>
 
     <div th:if="${user.role.equals('ADMIN')}" class="admin-link">
-        <a href="products/add">Добавить продукт</a>
+        <a href="/admin/dashboard">Admin Page</a>
     </div>
     <form action="/logout" method="post">
         <button type="submit" class="button button-danger">Выйти</button>
