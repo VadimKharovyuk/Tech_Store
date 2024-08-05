@@ -94,6 +94,7 @@ package com.example.webservice.controller;
 
 import com.example.webservice.dto.UserDTO;
 import com.example.webservice.repository.UserFeignClient;
+import com.example.webservice.service.UserService;
 import feign.FeignException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -101,6 +102,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -109,6 +111,7 @@ import java.util.List;
 public class UserController {
 
     private final UserFeignClient userFeignClient;
+    private final UserService userService;
 
     @GetMapping("/login")
     public String loginForm(Model model) {
@@ -116,40 +119,38 @@ public class UserController {
         return "user/Login";
     }
 
-//    @PostMapping("/login")
-//    public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
-//        try {
-//            ResponseEntity<String> response = userFeignClient.login(username, password);
-//
-//            if (response.getStatusCode() == HttpStatus.OK) {
-//                model.addAttribute("message", "Login successful");
-//                return "redirect:/";
-//            } else {
-//                model.addAttribute("error", "Invalid credentials");
-//                return "redirect:/login";
-//            }
-//        } catch (FeignException e) {
-//            model.addAttribute("error", "Login failed: " + e.getMessage());
-//            return "redirect:/login";
-//        }
-//    }
-@PostMapping("/login")
-public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
-    try {
-        ResponseEntity<UserDTO> response = userFeignClient.login(username, password);
+    @PostMapping("/login")
+    public String loginUser(@RequestParam String username, @RequestParam String password, RedirectAttributes redirectAttributes) {
+        try {
+            ResponseEntity<UserDTO> response = userFeignClient.login(username, password);
 
-        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            model.addAttribute("message", "Login successful");
-            return "redirect:/"; // Переход на главную страницу или другую страницу после успешного входа
-        } else {
-            model.addAttribute("error", "Invalid credentials");
-            return "user/Login"; // Отображение страницы входа с ошибкой
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                UserDTO userDTO = response.getBody();
+
+                // Проверка, заблокирован ли пользователь
+                if (userDTO.isBlocked()) {
+                    return "redirect:/blocked"; // Редирект на страницу с сообщением о блокировке
+                }
+
+                // Логика успешного входа
+                return "redirect:/"; // Переход на главную страницу или другую страницу после успешного входа
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Неправильный логин или пароль");
+                return "redirect:/login"; // Редирект на страницу входа с ошибкой
+            }
+        } catch (FeignException e) {
+            redirectAttributes.addFlashAttribute("error", "Ошибка входа: " + e.getMessage());
+            return "redirect:/login"; // Редирект на страницу входа с ошибкой
         }
-    } catch (FeignException e) {
-        model.addAttribute("error", "Login failed: " + e.getMessage());
-        return "user/Login"; // Отображение страницы входа с ошибкой
     }
-}
+    @GetMapping("/blocked")
+    public String blocked(){
+        return "user/Blocked";
+    }
+
+
+
+
 
 
     @GetMapping("/register")
@@ -175,13 +176,13 @@ public String loginUser(@RequestParam String username, @RequestParam String pass
     @PostMapping("/users/block/{userId}")
     public String blockUser(@PathVariable Long userId) {
         userFeignClient.blockUser(userId);
-        return "redirect:/users";
+        return "redirect:/admin/users";
     }
 
     @PostMapping("/users/unblock/{userId}")
     public String unblockUser(@PathVariable Long userId) {
         userFeignClient.unblockUser(userId);
-        return "redirect:/users";
+        return "redirect:/admin/users";
     }
 
     @GetMapping("/users/is-blocked")

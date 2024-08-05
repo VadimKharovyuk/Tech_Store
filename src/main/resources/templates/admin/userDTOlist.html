@@ -1,3 +1,61 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Список пользователей</title>-->
+<!--    <style>-->
+<!--        table {-->
+<!--            width: 100%;-->
+<!--            border-collapse: collapse;-->
+<!--        }-->
+<!--        table, th, td {-->
+<!--            border: 1px solid #ddd;-->
+<!--        }-->
+<!--        th, td {-->
+<!--            padding: 8px;-->
+<!--            text-align: left;-->
+<!--        }-->
+<!--        th {-->
+<!--            background-color: #f2f2f2;-->
+<!--        }-->
+<!--        .container {-->
+<!--            max-width: 1200px;-->
+<!--            margin: 0 auto;-->
+<!--            padding: 16px;-->
+<!--        }-->
+<!--        .header {-->
+<!--            margin-bottom: 16px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div class="header">-->
+<!--        <h1>Список пользователей</h1>-->
+<!--        <a href="/admin/dashboard">Назад в админ панель</a>-->
+<!--    </div>-->
+<!--    <table>-->
+<!--        <thead>-->
+<!--        <tr>-->
+
+<!--            <th>Имя пользователя</th>-->
+<!--            <th>Email</th>-->
+<!--            <th>Роль</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="user : ${users}">-->
+
+<!--            <td th:text="${user.username}">Имя пользователя</td>-->
+<!--            <td th:text="${user.email}">Email</td>-->
+<!--            <td th:text="${user.role}">Роль</td>-->
+<!--        </tr>-->
+<!--        -->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -26,6 +84,19 @@
         .header {
             margin-bottom: 16px;
         }
+        .button {
+            padding: 8px 16px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .button-block {
+            background-color: red;
+        }
+        .button-unblock {
+            background-color: green;
+        }
     </style>
 </head>
 <body>
@@ -41,14 +112,24 @@
             <th>Имя пользователя</th>
             <th>Email</th>
             <th>Роль</th>
+            <th>Статус</th>
+            <th>Действие</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${users}">
-
             <td th:text="${user.username}">Имя пользователя</td>
             <td th:text="${user.email}">Email</td>
             <td th:text="${user.role}">Роль</td>
+            <td th:text="${user.blocked ? 'Заблокирован' : 'Активен'}">Статус</td>
+            <td>
+                <form th:action="@{/users/block/{userId}(userId=${user.id})}" method="post" th:if="${!user.blocked}">
+                    <button type="submit" class="button button-block">Заблокировать</button>
+                </form>
+                <form th:action="@{/users/unblock/{userId}(userId=${user.id})}" method="post" th:if="${user.blocked}">
+                    <button type="submit" class="button button-unblock">Разблокировать</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
