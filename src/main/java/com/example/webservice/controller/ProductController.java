@@ -1,6 +1,5 @@
 // ProductController.java
 package com.example.webservice.controller;
-
 import com.example.webservice.dto.Category;
 import com.example.webservice.dto.Product;
 import com.example.webservice.repository.ProductFeignClient;
@@ -68,7 +67,7 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         productFeignClient.deleteProductById(id);
         redirectAttributes.addFlashAttribute("message", "Product deleted successfully");
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
 
     @PostMapping("/categories/delete/{id}")
