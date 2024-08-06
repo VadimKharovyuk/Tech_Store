@@ -23,7 +23,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/register", "/login").permitAll()
 
-                        .requestMatchers("/categories/**", "/account/**","users/change-password").authenticated()
+                        .requestMatchers("/categories/add","/products/add", "/account/**","users/change-password").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form

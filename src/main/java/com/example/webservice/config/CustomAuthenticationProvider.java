@@ -45,6 +45,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                             .withUsername(userDTO.getUsername())
                             .password(userDTO.getPassword()) // Убедитесь, что пароль не null
                             .authorities(authorities)
+
                             .build();
 
                     return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());

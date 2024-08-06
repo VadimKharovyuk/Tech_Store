@@ -1,12 +1,137 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Register</title>-->
+
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div id="registerForm">-->
+<!--        <h1>Register</h1>-->
+<!--        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>-->
+<!--        <form th:action="@{/register}" th:object="${userDto}" method="post">-->
+<!--            <div>-->
+<!--                <label>Логин:</label>-->
+<!--                <input type="text" th:field="*{username}" required />-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <label>Пароль:</label>-->
+<!--                <input type="password" th:field="*{password}" required />-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <label>Email:</label>-->
+<!--                <input type="email" th:field="*{email}" required />-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <button type="submit">Зарегистрироваться</button>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--        <p>Уже есть аккаунт? <a th:href="@{/login}">Войти</a></p>-->
+<!--        <p><a href="/">На главную страницу</a></p>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Register</title>
+    <title>Регистрация</title>
+    <style>
+        /* Reset some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        /* Set a background color */
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Center the registration form */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Style the registration form */
+        #registerForm {
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 3px;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
 <body>
 <div class="container">
     <div id="registerForm">
-        <h1>Register</h1>
+        <h1>Регистрация</h1>
         <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
         <form th:action="@{/register}" th:object="${userDto}" method="post">
             <div>

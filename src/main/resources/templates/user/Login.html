@@ -1,13 +1,135 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html xmlns:th="http://www.thymeleaf.org">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <title>Login</title>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="container">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div id="loginForm">&ndash;&gt;-->
+<!--&lt;!&ndash;        <h1>Login</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div> &lt;!&ndash; Добавлено для отображения ошибки &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <form th:action="@{/login}" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <label>Логин:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input type="text" name="username" required />&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <label>Пароль:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input type="password" name="password" required />&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <button type="submit">Войти</button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </form>&ndash;&gt;-->
+
+<!--&lt;!&ndash;        </form>&ndash;&gt;-->
+<!--&lt;!&ndash;        <p>Забыли пароль? <a th:href="@{/resetPassword}">Сбросить пароль</a></p>&ndash;&gt;-->
+<!--&lt;!&ndash;        <p>Нет аккаунта? <a th:href="@{/register}">Зарегистрироваться</a></p>&ndash;&gt;-->
+<!--&lt;!&ndash;        <p><a href="/">На главную страницу</a></p>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login</title>
+    <style>
+        /* Reset some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Set a background color */
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Center the login form */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Style the login form */
+        #loginForm {
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 3px;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #99a8d5;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0a46c7;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        a {
+            color: #4caf98;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <div id="loginForm">
         <h1>Login</h1>
-        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div> <!-- Добавлено для отображения ошибки -->
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
         <form th:action="@{/login}" method="post">
             <div>
                 <label>Логин:</label>
@@ -21,8 +143,6 @@
                 <button type="submit">Войти</button>
             </div>
         </form>
-
-        </form>
         <p>Забыли пароль? <a th:href="@{/resetPassword}">Сбросить пароль</a></p>
         <p>Нет аккаунта? <a th:href="@{/register}">Зарегистрироваться</a></p>
         <p><a href="/">На главную страницу</a></p>
@@ -30,3 +150,4 @@
 </div>
 </body>
 </html>
+
