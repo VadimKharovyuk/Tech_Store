@@ -212,6 +212,7 @@
                 <form th:action="@{/users/unblock/{userId}(userId=${user.id})}" method="post" th:if="${user.blocked}">
                     <button type="submit" class="button button-unblock">Разблокировать</button>
                 </form>
+                <br>
                 <form th:action="@{/users/delete/{userId}(userId=${user.id})}" method="post">
                     <input type="hidden" name="_method" value="delete"/>
                     <button type="submit" class="button button-delete">Удалить</button>
