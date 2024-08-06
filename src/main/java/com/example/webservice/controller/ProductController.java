@@ -3,6 +3,7 @@ package com.example.webservice.controller;
 import com.example.webservice.dto.Category;
 import com.example.webservice.dto.Product;
 import com.example.webservice.repository.ProductFeignClient;
+import com.example.webservice.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductController {
     private final ProductFeignClient productFeignClient;
+    private final ProductService productService;
 
     @GetMapping("/products")
     public String getProducts(Model model) {
@@ -86,7 +88,19 @@ public class ProductController {
         return "products/search";
     }
 
-
+@GetMapping("/products/edit/{id}")
+    public String getProductById(@PathVariable Long id,Model model){
+    Product product = productService.getProduct(id);
+    List<Category> categories = productFeignClient.getAllCategories(); // Метод для получения всех категорий
+    model.addAttribute("product", product);
+    model.addAttribute("categories", categories);
+    return "products/product-edit";
+}
+@PostMapping("/products/edit/{id}")
+    public String updateProduct(@PathVariable Long id,@ModelAttribute Product product){
+        productService.updateProduct(id,product);
+    return "redirect:/admin/products";
+}
 
 
 }

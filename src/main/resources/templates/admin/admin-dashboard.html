@@ -1,39 +1,136 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Админ Панель</title>-->
+<!--    <style>-->
+<!--        .card {-->
+<!--            border: 1px solid #ccc;-->
+<!--            border-radius: 5px;-->
+<!--            padding: 16px;-->
+<!--            margin: 16px 0;-->
+<!--            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
+<!--            max-width: 600px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Админ Панель</h1>-->
+<!--<p>Добро пожаловать в админ панель.</p>-->
+<!--<div class="card">-->
+<!--    <h2>Управление пользователями</h2>-->
+<!--    <a href="/admin/users">Управление пользователями</a>-->
+<!--</div>-->
+<!--<div class="card">-->
+<!--    <h2>Управление продуктами</h2>-->
+<!--    <a href="/products/new">Добавить продукт</a>-->
+<!--    <div class="card">-->
+<!--        <h2>Список продуктами</h2>-->
+<!--        <a href="/admin/products">Cписок продуктов</a>-->
+<!--    </div>-->
+<!--    <div class="card">-->
+<!--        <h2>Добавить категорию</h2>-->
+<!--        <a href="/categories/new">Добавить категорию</a>-->
+<!--    </div>-->
+<!--</div>-->
+<!--&lt;!&ndash; Добавьте другие элементы админ панели здесь &ndash;&gt;-->
+<!--<p><a href="/account">Назад в личный кабинет</a></p>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Админ Панель</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card-deck {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
         .card {
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
             padding: 16px;
-            margin: 16px 0;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            background-color: #ffffff;
+            flex: 1;
+            min-width: 280px; /* Ensures cards don't get too narrow */
+        }
+        .card h2 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+        .card a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .card a:hover {
+            text-decoration: underline;
+        }
+        .button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .back-link {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-<h1>Админ Панель</h1>
-<p>Добро пожаловать в админ панель.</p>
-<div class="card">
-    <h2>Управление пользователями</h2>
-    <a href="/admin/users">Управление пользователями</a>
-</div>
-<div class="card">
-    <h2>Управление продуктами</h2>
-    <a href="/products/new">Добавить продукт</a>
-    <div class="card">
-        <h2>Список продуктами</h2>
-        <a href="/admin/products">Cписок продуктов</a>
+<div class="container">
+    <h1>Админ Панель</h1>
+    <p>Добро пожаловать в админ панель.</p>
+
+    <div class="card-deck">
+        <div class="card">
+            <h2>Управление пользователями</h2>
+            <a href="/admin/users">Управление пользователями</a>
+        </div>
+
+        <div class="card">
+            <h2>Управление продуктами</h2>
+            <a href="/products/new">Добавить продукт</a>
+        </div>
+
+        <div class="card">
+            <h2>Список продуктов</h2>
+            <a href="/admin/products">Список продуктов</a>
+        </div>
+
+        <div class="card">
+            <h2>Добавить категорию</h2>
+            <a href="/categories/new">Добавить категорию</a>
+        </div>
     </div>
-    <div class="card">
-        <h2>Добавить категорию</h2>
-        <a href="/categories/new">Добавить категорию</a>
-    </div>
+
+    <!-- Добавьте другие элементы админ панели здесь -->
+
+    <p class="back-link"><a href="/account" class="button">Назад в личный кабинет</a></p>
 </div>
-<!-- Добавьте другие элементы админ панели здесь -->
-<p><a href="/account">Назад в личный кабинет</a></p>
 </body>
 </html>
+

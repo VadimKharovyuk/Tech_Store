@@ -36,6 +36,16 @@ public interface ProductFeignClient {
     @GetMapping("/api/products/search")
     List<Product> searchProductsByName(@RequestParam String name);
 
+
+    @GetMapping("/api/products/edit/{id}")
+    Product getproductById(@PathVariable Long id);
+
+    @PostMapping("/api/products/edit/{id}")
+    Product updateProduct(@PathVariable Long id,@RequestBody Product product);
+
+
+
+
 }
 
 

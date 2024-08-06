@@ -1,46 +1,118 @@
 
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html xmlns:th="http://www.thymeleaf.org">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta charset="UTF-8">&ndash;&gt;-->
+<!--&lt;!&ndash;    <title>Личный кабинет</title>&ndash;&gt;-->
+<!--&lt;!&ndash;    <style>&ndash;&gt;-->
+<!--&lt;!&ndash;        .card {&ndash;&gt;-->
+<!--&lt;!&ndash;            border: 1px solid #ccc;&ndash;&gt;-->
+<!--&lt;!&ndash;            border-radius: 5px;&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 16px;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin: 16px 0;&ndash;&gt;-->
+<!--&lt;!&ndash;            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);&ndash;&gt;-->
+<!--&lt;!&ndash;            max-width: 400px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .card h2 {&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-top: 0;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;    </style>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<h1>Добро пожаловать, <span th:text="${name}">Пользователь</span>!</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;<p>Это ваш личный кабинет.</p>&ndash;&gt;-->
+<!--&lt;!&ndash;<p><a href="/">На главную</a></p>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<div th:if="${user.role.equals('ADMIN')}" class="admin-link">&ndash;&gt;-->
+<!--&lt;!&ndash;    <a href="products/add">Добавить продукт</a>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<form action="/logout" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;    <button type="submit" class="button button-danger">Выйти</button>&ndash;&gt;-->
+<!--&lt;!&ndash;</form>&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash; Карточка для смены пароля &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="card">&ndash;&gt;-->
+<!--&lt;!&ndash;    <h2>Смена пароля</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;    <p>Перейдите по ссылке ниже, чтобы изменить ваш пароль:</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <a href="/change-password">Сменить пароль</a>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
 <!--<!DOCTYPE html>-->
 <!--<html xmlns:th="http://www.thymeleaf.org">-->
 <!--<head>-->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
 <!--    <meta charset="UTF-8">-->
 <!--    <title>Личный кабинет</title>-->
 <!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            background-color: #f8f9fa;-->
+<!--        }-->
+<!--        .container {-->
+<!--            max-width: 800px;-->
+<!--            margin: 0 auto;-->
+<!--            padding: 20px;-->
+<!--        }-->
 <!--        .card {-->
 <!--            border: 1px solid #ccc;-->
 <!--            border-radius: 5px;-->
 <!--            padding: 16px;-->
 <!--            margin: 16px 0;-->
 <!--            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
-<!--            max-width: 400px;-->
 <!--        }-->
 <!--        .card h2 {-->
 <!--            margin-top: 0;-->
 <!--        }-->
+<!--        .admin-link {-->
+<!--            margin-top: 20px;-->
+<!--        }-->
+
+<!--        .button-danger {-->
+<!--            background-color: #dc3545;-->
+<!--        }-->
+<!--        .button {-->
+<!--            background-color: #007bff;-->
+<!--            color: #fff;-->
+<!--            border: none;-->
+<!--            border-radius: 5px;-->
+<!--            padding: 10px 20px;-->
+<!--            cursor: pointer;-->
+<!--            transition: background-color 0.3s ease;-->
+<!--        }-->
+<!--        .button:hover {-->
+<!--            background-color: #0056b3;-->
+<!--        }-->
 <!--    </style>-->
 <!--</head>-->
 <!--<body>-->
-<!--<h1>Добро пожаловать, <span th:text="${name}">Пользователь</span>!</h1>-->
-<!--<p>Это ваш личный кабинет.</p>-->
-<!--<p><a href="/">На главную</a></p>-->
+<!--<div class="container">-->
+<!--    <h1>Добро пожаловать, <span th:text="${name}">Пользователь</span>!</h1>-->
+<!--    <p>Это ваш личный кабинет.</p>-->
+<!--    <p><a href="/">На главную</a></p>-->
 
-<!--<div th:if="${user.role.equals('ADMIN')}" class="admin-link">-->
-<!--    <a href="products/add">Добавить продукт</a>-->
+<!--    <div th:if="${user.role.equals('ADMIN')}" class="admin-link">-->
+<!--        <a href="/admin/dashboard">Admin Page</a>-->
+<!--    </div>-->
+<!--    <form action="/logout" method="post">-->
+<!--        <button type="submit" class="button button-danger">Выйти</button>-->
+<!--    </form>-->
+
+
+<!--    &lt;!&ndash; Карточка для смены пароля &ndash;&gt;-->
+<!--    <div class="card">-->
+<!--        <h2>Смена пароля</h2>-->
+<!--        <p>Перейдите по ссылке ниже, чтобы изменить ваш пароль:</p>-->
+<!--        <a href="/change-password">Сменить пароль</a>-->
+<!--    </div>-->
 <!--</div>-->
-<!--<form action="/logout" method="post">-->
-<!--    <button type="submit" class="button button-danger">Выйти</button>-->
-<!--</form>-->
-
-<!--&lt;!&ndash; Карточка для смены пароля &ndash;&gt;-->
-<!--<div class="card">-->
-<!--    <h2>Смена пароля</h2>-->
-<!--    <p>Перейдите по ссылке ниже, чтобы изменить ваш пароль:</p>-->
-<!--    <a href="/change-password">Сменить пароль</a>-->
-<!--</div>-->
-
-
-
 <!--</body>-->
 <!--</html>-->
+
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
@@ -52,6 +124,7 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
+            color: #343a40;
         }
         .container {
             max-width: 800px;
@@ -59,21 +132,19 @@
             padding: 20px;
         }
         .card {
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
             padding: 16px;
             margin: 16px 0;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
         }
         .card h2 {
             margin-top: 0;
+            font-size: 24px;
         }
         .admin-link {
             margin-top: 20px;
-        }
-
-        .button-danger {
-            background-color: #dc3545;
         }
         .button {
             background-color: #007bff;
@@ -83,9 +154,23 @@
             padding: 10px 20px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            font-size: 16px;
         }
         .button:hover {
             background-color: #0056b3;
+        }
+        .button-danger {
+            background-color: #dc3545;
+        }
+        .button-danger:hover {
+            background-color: #c82333;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -96,12 +181,12 @@
     <p><a href="/">На главную</a></p>
 
     <div th:if="${user.role.equals('ADMIN')}" class="admin-link">
-        <a href="/admin/dashboard">Admin Page</a>
+        <a class="button" href="/admin/dashboard">Админ панель</a>
     </div>
+
     <form action="/logout" method="post">
         <button type="submit" class="button button-danger">Выйти</button>
     </form>
-
 
     <!-- Карточка для смены пароля -->
     <div class="card">
