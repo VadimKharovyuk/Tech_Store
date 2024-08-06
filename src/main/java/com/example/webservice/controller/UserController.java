@@ -191,4 +191,11 @@ public class UserController {
         model.addAttribute("isBlocked", isBlocked);
         return "user-status"; // Имя HTML-шаблона для отображения статуса пользователя
     }
+    @PostMapping("/users/delete/{id}")
+    public String deleteUserById(@PathVariable("id") Long id) {
+       userFeignClient.deleteUserById(id);
+        return "redirect:/admin/users";
+
+    }
+
 }

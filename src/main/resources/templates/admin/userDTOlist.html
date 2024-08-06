@@ -1,3 +1,61 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html xmlns:th="http://www.thymeleaf.org">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta charset="UTF-8">&ndash;&gt;-->
+<!--&lt;!&ndash;    <title>Список пользователей</title>&ndash;&gt;-->
+<!--&lt;!&ndash;    <style>&ndash;&gt;-->
+<!--&lt;!&ndash;        table {&ndash;&gt;-->
+<!--&lt;!&ndash;            width: 100%;&ndash;&gt;-->
+<!--&lt;!&ndash;            border-collapse: collapse;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        table, th, td {&ndash;&gt;-->
+<!--&lt;!&ndash;            border: 1px solid #ddd;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        th, td {&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 8px;&ndash;&gt;-->
+<!--&lt;!&ndash;            text-align: left;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        th {&ndash;&gt;-->
+<!--&lt;!&ndash;            background-color: #f2f2f2;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .container {&ndash;&gt;-->
+<!--&lt;!&ndash;            max-width: 1200px;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin: 0 auto;&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 16px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .header {&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-bottom: 16px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;    </style>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="container">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="header">&ndash;&gt;-->
+<!--&lt;!&ndash;        <h1>Список пользователей</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;        <a href="/admin/dashboard">Назад в админ панель</a>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <table>&ndash;&gt;-->
+<!--&lt;!&ndash;        <thead>&ndash;&gt;-->
+<!--&lt;!&ndash;        <tr>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <th>Имя пользователя</th>&ndash;&gt;-->
+<!--&lt;!&ndash;            <th>Email</th>&ndash;&gt;-->
+<!--&lt;!&ndash;            <th>Роль</th>&ndash;&gt;-->
+<!--&lt;!&ndash;        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;        </thead>&ndash;&gt;-->
+<!--&lt;!&ndash;        <tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;        <tr th:each="user : ${users}">&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <td th:text="${user.username}">Имя пользователя</td>&ndash;&gt;-->
+<!--&lt;!&ndash;            <td th:text="${user.email}">Email</td>&ndash;&gt;-->
+<!--&lt;!&ndash;            <td th:text="${user.role}">Роль</td>&ndash;&gt;-->
+<!--&lt;!&ndash;        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;        &ndash;&gt;-->
+<!--&lt;!&ndash;        </tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;    </table>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
 <!--<!DOCTYPE html>-->
 <!--<html xmlns:th="http://www.thymeleaf.org">-->
 <!--<head>-->
@@ -26,6 +84,19 @@
 <!--        .header {-->
 <!--            margin-bottom: 16px;-->
 <!--        }-->
+<!--        .button {-->
+<!--            padding: 8px 16px;-->
+<!--            color: white;-->
+<!--            border: none;-->
+<!--            border-radius: 4px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+<!--        .button-block {-->
+<!--            background-color: red;-->
+<!--        }-->
+<!--        .button-unblock {-->
+<!--            background-color: green;-->
+<!--        }-->
 <!--    </style>-->
 <!--</head>-->
 <!--<body>-->
@@ -41,21 +112,31 @@
 <!--            <th>Имя пользователя</th>-->
 <!--            <th>Email</th>-->
 <!--            <th>Роль</th>-->
+<!--            <th>Статус</th>-->
+<!--            <th>Действие</th>-->
 <!--        </tr>-->
 <!--        </thead>-->
 <!--        <tbody>-->
 <!--        <tr th:each="user : ${users}">-->
-
 <!--            <td th:text="${user.username}">Имя пользователя</td>-->
 <!--            <td th:text="${user.email}">Email</td>-->
 <!--            <td th:text="${user.role}">Роль</td>-->
+<!--            <td th:text="${user.blocked ? 'Заблокирован' : 'Активен'}">Статус</td>-->
+<!--            <td>-->
+<!--                <form th:action="@{/users/block/{userId}(userId=${user.id})}" method="post" th:if="${!user.blocked}">-->
+<!--                    <button type="submit" class="button button-block">Заблокировать</button>-->
+<!--                </form>-->
+<!--                <form th:action="@{/users/unblock/{userId}(userId=${user.id})}" method="post" th:if="${user.blocked}">-->
+<!--                    <button type="submit" class="button button-unblock">Разблокировать</button>-->
+<!--                </form>-->
+<!--            </td>-->
 <!--        </tr>-->
-<!--        -->
 <!--        </tbody>-->
 <!--    </table>-->
 <!--</div>-->
 <!--</body>-->
 <!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -97,6 +178,9 @@
         .button-unblock {
             background-color: green;
         }
+        .button-delete {
+            background-color: #ef2f16;
+        }
     </style>
 </head>
 <body>
@@ -108,7 +192,6 @@
     <table>
         <thead>
         <tr>
-
             <th>Имя пользователя</th>
             <th>Email</th>
             <th>Роль</th>
@@ -128,6 +211,10 @@
                 </form>
                 <form th:action="@{/users/unblock/{userId}(userId=${user.id})}" method="post" th:if="${user.blocked}">
                     <button type="submit" class="button button-unblock">Разблокировать</button>
+                </form>
+                <form th:action="@{/users/delete/{userId}(userId=${user.id})}" method="post">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" class="button button-delete">Удалить</button>
                 </form>
             </td>
         </tr>

@@ -80,8 +80,16 @@ public interface UserFeignClient {
     Boolean isBlocked(@RequestParam String username);
 
     @PostMapping("/api/users/login")
-    ResponseEntity<UserDTO> login(@RequestParam String username, @RequestParam String password);
+    ResponseEntity<UserDTO> login(@RequestParam String username,
+                                  @RequestParam String password);
 
     @PostMapping("/api/password/reset-password")
-    ResponseEntity<String> sendEmailPassword(@RequestParam String email, @RequestParam String newPassword);
+    ResponseEntity<String> sendEmailPassword(
+            @RequestParam String email,
+            @RequestParam String newPassword);
+
+    @DeleteMapping("/api/users/delete/{id}")
+    ResponseEntity<Void>deleteUserById(@PathVariable long id);
+
+
 }
