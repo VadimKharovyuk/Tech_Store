@@ -75,6 +75,17 @@ public class ProductController {
         productFeignClient.deleteCategoryById(id);
         return "redirect:/categories";
     }
+    @GetMapping("/products/search")
+    public String searchProducts(@RequestParam(required = false) String name, Model model) {
+        if (name == null || name.trim().isEmpty()) {
+            model.addAttribute("error", "Search term is required");
+            return "products/search";
+        }
+        List<Product> products = productFeignClient.searchProductsByName(name);
+        model.addAttribute("products", products);
+        return "products/search";
+    }
+
 
 
 

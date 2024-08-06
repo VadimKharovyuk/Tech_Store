@@ -32,6 +32,10 @@ public interface ProductFeignClient {
     @PostMapping("/api/products/delete/category/{id}")
     void deleteCategoryById(@PathVariable Long id);
 
+
+    @GetMapping("/api/products/search")
+    List<Product> searchProductsByName(@RequestParam String name);
+
 }
 
 

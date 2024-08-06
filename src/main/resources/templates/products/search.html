@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Search Products</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #f8f8f8;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        footer {
+            background-color: #f8f8f8;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <h1>Product Search</h1>
+    <nav>
+        <a href="/products">All Products</a> |
+        <a href="/categories">Categories</a>
+    </nav>
+</header>
+
+<main>
+    <form th:action="@{/products/search}" method="get">
+        <label for="name">Search by Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter product name" required />
+        <button type="submit">Search</button>
+    </form>
+
+
+    <section>
+        <h2>Search Results</h2>
+        <div th:if="${products != null}">
+            <table>
+                <thead>
+                <tr>
+
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}">
+
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${product.category.name}"></td>
+                    <td th:text="${product.price}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${products == null}">
+            <p>No products found.</p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 Your Company</p>
+</footer>
+</body>
+</html>
