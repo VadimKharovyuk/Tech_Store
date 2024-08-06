@@ -1,7 +1,7 @@
-package com.example.webservice.config;
+package com.example.webservice.config;//package com.example.webservice.config;
+
 import com.example.webservice.dto.UserDTO;
 import com.example.webservice.repository.UserFeignClient;
-import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+
+import feign.FeignException;
+
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {

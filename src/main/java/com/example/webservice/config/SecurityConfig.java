@@ -1,4 +1,4 @@
-package com.example.webservice.config;
+package com.example.webservice.config;//package com.example.webservice.config;//package com.example.webservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authz -> authz
 
-                        .requestMatchers("/api/users/register", "/api/users/login").permitAll()
+                        .requestMatchers("/api/users/register", "/api/users/login","/blocked").permitAll()
 
                         .requestMatchers("/register", "/login").permitAll()
 
@@ -28,12 +28,17 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/blocked")
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .permitAll()
+                )
+                .exceptionHandling(exception -> exception
+                        .accessDeniedPage("/error")
                 )
                 .csrf().disable(); // Отключение CSRF, если это необходимо
 
