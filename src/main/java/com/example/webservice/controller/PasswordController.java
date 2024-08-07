@@ -49,6 +49,7 @@ public class PasswordController {
         }
     }
 
+
     private String generateNewPassword(int length) {
 
         String characters = "ABCD1234567890";
