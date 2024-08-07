@@ -83,7 +83,7 @@ public interface UserFeignClient {
     ResponseEntity<UserDTO> login(@RequestParam String username,
                                   @RequestParam String password);
 
-    @PostMapping("/api/password/reset-password")
+    @PostMapping("/api/password/reset")
     ResponseEntity<String> sendEmailPassword(
             @RequestParam String email,
             @RequestParam String newPassword);

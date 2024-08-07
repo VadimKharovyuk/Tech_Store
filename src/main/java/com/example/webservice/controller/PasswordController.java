@@ -2,6 +2,7 @@ package com.example.webservice.controller;
 import com.example.webservice.repository.UserFeignClient;
 import com.example.webservice.service.PasswordGenerator;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class PasswordController {
 
     private final UserFeignClient userFeignClient;
-
-    private  final PasswordGenerator passwordGenerator;
-
 
 
     @GetMapping("/change-password")
@@ -29,28 +27,42 @@ public class PasswordController {
             @RequestParam String currentPassword,
             @RequestParam String newPassword) {
         userFeignClient.changePassword(username, currentPassword, newPassword);
-        return "redirect:/account";  }
+        return "redirect:/account";
+    }
+
 
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestParam String email) {
         try {
             // Генерация нового пароля
-            String newPassword = passwordGenerator.generateNewPassword(12); // длиной 12 символов
+            String newPassword = generateNewPassword(10); // Длина пароля, например, 10 символов
 
-            // Отправка нового пароля на электронную почту
+            // Отправка нового пароля через FeignClient
             ResponseEntity<String> response = userFeignClient.sendEmailPassword(email, newPassword);
-
             if (response.getStatusCode().is2xxSuccessful()) {
-                return ResponseEntity.ok("New password sent");
+                return ResponseEntity.ok("Пароль сброшен и отправлен на почту.");
             } else {
-                return ResponseEntity.status(response.getStatusCode()).body("Failed to send new password");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось отправить пароль на почту.");
             }
         } catch (Exception e) {
-            // Логирование исключения и обработка ошибки
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Error occurred while processing request");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Произошла ошибка при сбросе пароля.");
         }
     }
+
+    private String generateNewPassword(int length) {
+
+        String characters = "ABCD1234567890";
+        StringBuilder password = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            int index = (int) (characters.length() * Math.random());
+            password.append(characters.charAt(index));
+        }
+        return password.toString();
+    }
+
+
+
+
 
     @GetMapping("/resetPassword")
     public String resetPasswordForm(){
