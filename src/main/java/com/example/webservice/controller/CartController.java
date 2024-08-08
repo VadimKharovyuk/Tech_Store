@@ -88,6 +88,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequiredArgsConstructor
@@ -99,21 +100,20 @@ public class CartController {
     private final UserFeignClient userFeignClient;
 
     @PostMapping("/add-to-cart")
-    public ResponseEntity<String> addProductToCart(
+    public String addProductToCart(
             @RequestParam("userId") Long userId,
             @RequestParam("productId") Long productId,
             @RequestParam("productName") String productName,
             @RequestParam("quantity") int quantity) {
 
-        try {
-            // Вызов метода сервиса для добавления товара в корзину
-            productService.addProductToCart(userId, productId, productName, quantity);
-            return new ResponseEntity<>("Product added to cart successfully.", HttpStatus.OK);
-        } catch (Exception e) {
-            // Обработка ошибок и возврат сообщения об ошибке
-            return new ResponseEntity<>("Failed to add product to cart: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+
+        productService.addProductToCart(userId, productId, productName, quantity);
+        return "redirect:/cart";
+
+
     }
+
+
     @GetMapping
     public String getCart(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -139,3 +139,4 @@ public class CartController {
         }
     }
 }
+
