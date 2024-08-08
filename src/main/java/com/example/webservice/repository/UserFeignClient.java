@@ -91,5 +91,6 @@ public interface UserFeignClient {
     @DeleteMapping("/api/users/delete/{id}")
     ResponseEntity<Void>deleteUserById(@PathVariable long id);
 
-
+    @GetMapping("/api/users/{username}")
+    UserDTO getUserByUsername(@PathVariable String username);
 }

@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div th:if="${cart}">
+        <div class="card">
+            <h2>Ваша корзина</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${cart.items}">
+                    <td th:text="${item.productName}"></td>
+                    <td th:text="${item.quantity}"></td>
+<!--                     <td th:text="${item.price}"></td> -->
+                </tr>
+                </tbody>
+            </table>
+            <p th:if="${cart.items.isEmpty()}">Ваша корзина пуста.</p>
+        </div>
+    </div>
+    <p th:if="${message}" th:text="${message}"></p>
+</div>
+</body>
+</html>

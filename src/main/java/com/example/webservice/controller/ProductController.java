@@ -2,9 +2,13 @@
 package com.example.webservice.controller;
 import com.example.webservice.dto.Category;
 import com.example.webservice.dto.Product;
+import com.example.webservice.dto.UserDTO;
 import com.example.webservice.repository.ProductFeignClient;
+import com.example.webservice.repository.UserFeignClient;
 import com.example.webservice.service.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +21,7 @@ import java.util.List;
 public class ProductController {
     private final ProductFeignClient productFeignClient;
     private final ProductService productService;
+    private final UserFeignClient userFeignClient;
 
     @GetMapping("/products")
     public String getProducts(Model model) {
@@ -24,7 +29,23 @@ public class ProductController {
         List<Category> categoryList = productFeignClient.getAllCategories();
         model.addAttribute("products", products);
         model.addAttribute("category", categoryList);
-        return "products/products";
+//        return "products/products";
+
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            String username = authentication.getName();
+//
+//            // Получение информации о пользователе
+//            UserDTO user = userFeignClient.getUserByUsername(username);
+//            Long userId = user.getId();
+//
+//            // Добавляем userId в модель
+//            model.addAttribute("userId", userId);
+//
+//            // Получение списка продуктов
+//            List<Product> products = productFeignClient.getAllProducts();
+//            model.addAttribute("products", products);
+
+            return "products/products"; // имя HTML-шаблона
     }
 
 
