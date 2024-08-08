@@ -24,30 +24,26 @@ public class ProductController {
     private final ProductService productService;
     private final UserFeignClient userFeignClient;
 
-    @GetMapping("/products")
-    public String getProducts(Model model) {
-//        List<Product> products = productFeignClient.getAllProducts();
-        List<Category> categoryList = productFeignClient.getAllCategories();
-//        model.addAttribute("products", products);
-        model.addAttribute("category", categoryList);
-//        return "products/products";
 
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
+@GetMapping("/products")
+public String getProducts(Model model) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
 
-//            // Получение информации о пользователе
-//            UserDTO user = userFeignClient.getUserByUsername(username);
-//            Long userId = user.getId();
-//
-//            // Добавляем userId в модель
-//            model.addAttribute("userId", userId);
+    // Получение информации о пользователе
+    UserDTO user = userFeignClient.getUserByUsername(username);
+    Long userId = user.getId();
 
-            // Получение списка продуктов
-            List<Product> products = productFeignClient.getAllProducts();
-            model.addAttribute("products", products);
+    // Добавляем userId в модель
+    model.addAttribute("userId", userId);
 
-            return "products/products"; // имя HTML-шаблона
-    }
+    // Получение списка продуктов
+    List<Product> products = productFeignClient.getAllProducts();
+    model.addAttribute("products", products);
+
+    return "products/products"; // имя HTML-шаблона
+}
+
 
 
     @GetMapping("/products/new")

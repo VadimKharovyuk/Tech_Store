@@ -143,8 +143,12 @@
                         <p class="card-text" th:text="${product.price}">Product Price</p>
 
                         <!-- Form for adding product to cart -->
+
                         <form th:action="@{/cart/add-to-cart}" method="post">
+                            <!-- Include userId as a hidden field -->
+                            <input type="hidden" name="userId" th:value="${userId}" />
                             <input type="hidden" name="productId" th:value="${product.id}" />
+                            <input type="hidden" name="productName" th:value="${product.name}" />
                             <input type="number" name="quantity" value="1" min="1" class="form-control mb-2" />
                             <button type="submit" class="btn btn-primary">Add to Cart</button>
                         </form>

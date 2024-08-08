@@ -48,8 +48,6 @@ public interface ProductFeignClient {
 
 
 
-
-
     @PostMapping("/reviews")
     ReviewDTO createReview(@RequestBody ReviewDTO reviewDTO);
 
@@ -59,8 +57,6 @@ public interface ProductFeignClient {
 
     @DeleteMapping("/reviews/{id}")
     void deleteReview(@PathVariable("id") Long id);
-
-
 
     @GetMapping("/reviews/product/{productId}")
     List<ReviewDTO> getReviewsByProductId(@PathVariable("productId") Long productId);
