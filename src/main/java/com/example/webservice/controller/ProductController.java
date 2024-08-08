@@ -2,6 +2,7 @@
 package com.example.webservice.controller;
 import com.example.webservice.dto.Category;
 import com.example.webservice.dto.Product;
+import com.example.webservice.dto.ReviewDTO;
 import com.example.webservice.dto.UserDTO;
 import com.example.webservice.repository.ProductFeignClient;
 import com.example.webservice.repository.UserFeignClient;
@@ -123,6 +124,16 @@ public class ProductController {
         productService.updateProduct(id,product);
     return "redirect:/admin/products";
 }
+    @GetMapping("/product/{id}")
+    public String viewProduct(@PathVariable Long id, Model model) {
+        Product product = productService.getProductById(id);
+        String productName = product.getName();
+        List<ReviewDTO> reviews = productService.getReviewsByProductId(id);
+        model.addAttribute("product", product);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("productName", productName);
+        return "Review/listReviews";
+    }
 
 
 }
