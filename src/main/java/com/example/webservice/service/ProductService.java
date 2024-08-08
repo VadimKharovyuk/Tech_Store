@@ -2,6 +2,7 @@ package com.example.webservice.service;
 
 import com.example.webservice.dto.CartItemDto;
 import com.example.webservice.dto.Product;
+import com.example.webservice.dto.ReviewDTO;
 import com.example.webservice.repository.CartFeignClient;
 import com.example.webservice.repository.ProductFeignClient;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -49,5 +52,13 @@ public class ProductService {
             // Логирование ошибки и обработка исключений
             System.err.println("Exception occurred while adding product to cart: " + e.getMessage());
         }
+    }
+
+    public List<ReviewDTO> getReviewsByProductId(Long productId) {
+        return productFeignClient.getReviewsByProductId(productId);
+    }
+
+    public Product getProductById(Long productId) {
+       return productFeignClient.getproductById(productId);
     }
 }

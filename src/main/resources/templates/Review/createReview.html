@@ -1,0 +1,168 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html xmlns:th="http://www.thymeleaf.org">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta charset="UTF-8">&ndash;&gt;-->
+<!--&lt;!&ndash;    <title>Create Review</title>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<h1>Создать отзыв для товара </h1>&ndash;&gt;-->
+<!--&lt;!&ndash;<form th:action="@{/reviews/create}" th:object="${review}" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;    <label for="reviewerName">Напишите свое Имя:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;    <input type="text" id="reviewerName" th:field="*{reviewerName}" required />&ndash;&gt;-->
+<!--&lt;!&ndash;    <br/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <label for="content">Отзыв:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;    <textarea id="content" th:field="*{content}" required></textarea>&ndash;&gt;-->
+<!--&lt;!&ndash;    <br/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <label for="rating">Рейтинг (1-5):</label>&ndash;&gt;-->
+<!--&lt;!&ndash;    <input type="number" id="rating" th:field="*{rating}" min="1" max="5" required />&ndash;&gt;-->
+<!--&lt;!&ndash;    <br/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <input type="hidden" th:field="*{productId}" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <button type="submit">Создать отзыв</button>&ndash;&gt;-->
+<!--&lt;!&ndash;</form>&ndash;&gt;-->
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Создать отзыв</title>
+    <style>
+        /* Reset some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Set a background color */
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        /* Style the review form */
+        .review-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            margin-bottom: 5px;
+            display: block;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .alert {
+            display: none;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+<div class="review-form">
+    <h1>Создать отзыв для товара</h1>
+    <div class="alert" id="alertMessage"></div>
+    <form th:action="@{/reviews/create}" th:object="${review}" method="post" onsubmit="return validateForm()">
+        <label for="reviewerName">Напишите свое Имя:</label>
+        <input type="text" id="reviewerName" th:field="*{reviewerName}" required />
+
+        <label for="content">Отзыв:</label>
+        <textarea id="content" th:field="*{content}" required></textarea>
+
+        <label for="rating">Рейтинг (1-5):</label>
+        <input type="number" id="rating" th:field="*{rating}" min="1" max="5" required />
+
+        <input type="hidden" th:field="*{productId}" />
+
+        <button type="submit">Создать отзыв</button>
+    </form>
+</div>
+
+<script>
+    function validateForm() {
+        const reviewerName = document.getElementById('reviewerName').value;
+        const content = document.getElementById('content').value;
+        const rating = document.getElementById('rating').value;
+        const alertMessage = document.getElementById('alertMessage');
+
+        // Reset alert message
+        alertMessage.style.display = 'none';
+
+        if (reviewerName.trim() === '' || content.trim() === '' || rating < 1 || rating > 5) {
+            alertMessage.textContent = 'Пожалуйста, заполните все поля корректно.';
+            alertMessage.style.display = 'block';
+            return false; // Prevent form submission
+        }
+
+        return true; // Allow form submission
+    }
+</script>
+</body>
+</html>

@@ -3,10 +3,12 @@ package com.example.webservice.repository;
 
 import com.example.webservice.dto.Category;
 import com.example.webservice.dto.Product;
+import com.example.webservice.dto.ReviewDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @FeignClient(name = "product-service")
 public interface ProductFeignClient {
@@ -44,6 +46,24 @@ public interface ProductFeignClient {
     Product updateProduct(@PathVariable Long id,@RequestBody Product product);
 
 
+
+
+
+
+    @PostMapping("/reviews")
+    ReviewDTO createReview(@RequestBody ReviewDTO reviewDTO);
+
+    @GetMapping("/reviews/{id}")
+    Optional<ReviewDTO> getReview(@PathVariable("id") Long id);
+
+
+    @DeleteMapping("/reviews/{id}")
+    void deleteReview(@PathVariable("id") Long id);
+
+
+
+    @GetMapping("/reviews/product/{productId}")
+    List<ReviewDTO> getReviewsByProductId(@PathVariable("productId") Long productId);
 
 
 }

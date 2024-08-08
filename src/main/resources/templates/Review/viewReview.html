@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View Review</title>
+</head>
+<body>
+<h1>Review Details</h1>
+<p><strong>Reviewer Name:</strong> <span th:text="${review.reviewerName}"></span></p>
+<p><strong>Content:</strong> <span th:text="${review.content}"></span></p>
+<p><strong>Rating:</strong> <span th:text="${review.rating}"></span></p>
+<p><strong>Product ID:</strong> <span th:text="${review.productId}"></span></p>
+
+<form th:action="@{/reviews/delete/{id}(id=${review.id})}" method="post">
+    <button type="submit">Delete Review</button>
+</form>
+</body>
+</html>

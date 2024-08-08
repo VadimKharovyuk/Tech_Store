@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Reviews</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .review-card {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-4">
+<!--  <h1>Reviews for Product ID: <span th:text="${productId}"></span></h1>-->
+  <h1>Название товара: <span th:text="${productName}"></span></h1>
+
+  <!-- Display a message if no reviews are found -->
+  <div th:if="${reviews.isEmpty()}">
+    <p>No reviews found for this product.</p>
+  </div>
+
+  <!-- Display the reviews in cards if there are reviews -->
+  <div th:if="${!reviews.isEmpty()}">
+    <div class="row">
+      <!-- Iterate over the reviews and create a card for each review -->
+      <div class="col-md-12" th:each="review : ${reviews}">
+        <div class="card review-card">
+          <div class="card-body">
+            <h5 class="card-title" th:text="${review.reviewerName}">Reviewer Name</h5>
+            <p class="card-text" th:text="${review.content}">Review Content</p>
+            <p class="card-text"><strong>Rating:</strong> <span th:text="${review.rating}">Rating</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link to create a new review for the product -->
+  <a th:href="@{/reviews/create/{productId}(productId=${productId})}" class="btn btn-primary mt-4">Add Review</a>
+</div>
+
+<!-- Optionally include Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
