@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Отзывы о товаре</title>
+    <style>
+        /* Reset some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Set a background color and font styles */
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Style for the review card */
+        .row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .col-md-12 {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .card-text {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        /* Style for the message when no reviews are found */
+        .no-reviews {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #888;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Название товара: <span th:text="${productName}"></span></h1>
+
+<!-- Display a message if no reviews are found -->
+<div th:if="${reviews.isEmpty()}" class="no-reviews">
+    <p>No reviews found for this product.</p>
+</div>
+
+<!-- Display the reviews in cards if there are reviews -->
+<div th:if="${!reviews.isEmpty()}">
+    <div class="row">
+        <!-- Iterate over the reviews and create a card for each review -->
+        <div class="col-md-12" th:each="review : ${reviews}">
+            <div class="card review-card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${review.reviewerName}">Reviewer Name</h5>
+                    <p class="card-text" th:text="${review.content}">Review Content</p>
+                    <p class="card-text"><strong>Rating:</strong> <span th:text="${review.rating}">Rating</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

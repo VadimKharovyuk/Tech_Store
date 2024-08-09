@@ -131,6 +131,7 @@ public String getProducts(Model model) {
         productService.updateProduct(id,product);
     return "redirect:/admin/products";
 }
+
     @GetMapping("/product/{id}")
     public String viewProduct(@PathVariable Long id, Model model) {
         Product product = productService.getProductById(id);
@@ -139,7 +140,7 @@ public String getProducts(Model model) {
         model.addAttribute("product", product);
         model.addAttribute("reviews", reviews);
         model.addAttribute("productName", productName);
-        return "Review/listReviews";
+        return "products/listReviesForSharch";
     }
 
 
