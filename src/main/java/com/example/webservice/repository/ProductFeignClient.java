@@ -55,11 +55,14 @@ public interface ProductFeignClient {
     Optional<ReviewDTO> getReview(@PathVariable("id") Long id);
 
 
-    @DeleteMapping("/reviews/{id}")
-    void deleteReview(@PathVariable("id") Long id);
+
 
     @GetMapping("/reviews/product/{productId}")
     List<ReviewDTO> getReviewsByProductId(@PathVariable("productId") Long productId);
+
+    @PostMapping("/reviews/product/delete/{productId}")
+    void deleteReview(@PathVariable("productId") Long productId);
+
 
 
 }

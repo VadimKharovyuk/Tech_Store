@@ -71,18 +71,12 @@ public class ReviewController {
     }
 
 
-
-
-
-
-
-
-
-
-        @PostMapping("/delete/{id}")
-        public String deleteReview (@PathVariable Long id){
-            reviewService.deleteReview(id);
-            return "redirect:/reviews/list";
-        }
+    @PostMapping("/product/delete/{productId}")
+    public String deleteReviewByProductId(@PathVariable("productId") Long productId) {
+        productService.deleteRewiresById(productId);
+        return "redirect:/products";
     }
+
+
+}
 

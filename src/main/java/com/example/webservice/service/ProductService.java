@@ -6,7 +6,6 @@ import com.example.webservice.dto.ReviewDTO;
 import com.example.webservice.repository.CartFeignClient;
 import com.example.webservice.repository.ProductFeignClient;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -60,5 +59,8 @@ public class ProductService {
 
     public Product getProductById(Long productId) {
        return productFeignClient.getproductById(productId);
+    }
+    public void deleteRewiresById(@PathVariable Long id){
+     productFeignClient.deleteReview(id);
     }
 }
