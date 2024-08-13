@@ -5,8 +5,48 @@
     <title>Products</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        body {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
         .card-product {
             margin-bottom: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dark-theme {
+            background-color: #212529;
+            color: #f8f9fa;
+        }
+
+        .dark-theme .card-product {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+
+        .dark-theme .card-body {
+            background-color: #495057;
+        }
+
+        .dark-theme .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .dark-theme .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .dark-theme .btn-info {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
         }
     </style>
 </head>
@@ -14,6 +54,9 @@
 
 <div class="container mt-4">
     <h1>Products</h1>
+
+    <!-- Theme toggle button -->
+    <button id="theme-toggle" class="btn btn-secondary theme-toggle">Сменить тему</button>
 
     <!-- Display a message if no products are found -->
     <div th:if="${products.isEmpty()}">
@@ -31,12 +74,11 @@
                         <p class="card-text" th:text="${product.price}">Product Price</p>
 
                         <!-- Form for adding product to cart -->
-
                         <form th:action="@{/cart/add-to-cart}" method="post">
                             <input type="hidden" name="userId" th:value="${userId}" />
                             <input type="hidden" name="productId" th:value="${product.id}" />
                             <input type="hidden" name="productName" th:value="${product.name}" />
-                            <input type="hidden" name="price"  th:value="${product.price}"/>
+                            <input type="hidden" name="price" th:value="${product.price}"/>
                             <input type="number" name="quantity" value="1" min="1" class="form-control mb-2" />
                             <button type="submit" class="btn btn-primary">Add to Cart</button>
                         </form>
@@ -45,12 +87,7 @@
                         <a th:href="@{/reviews/create/{productId}(productId=${product.id})}" class="btn btn-secondary mt-2">Написать отзыв</a>
 
                         <!-- Link to view reviews for this product -->
-                        <a th:href="@{/reviews/list/{productId}(productId=${product.id})}" class="btn btn-info mt-2">Посмотреть отзывы о товаре </a>
-
-<!--                        <form th:action="@{/reviews/product/delete/{productId}(productId=${product.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete all reviews for this product?');">-->
-<!--                            <button type="submit" class="btn btn-danger mt-2">Удалить все отзывы</button>-->
-<!--                        </form>-->
-
+                        <a th:href="@{/reviews/list/{productId}(productId=${product.id})}" class="btn btn-info mt-2">Посмотреть отзывы о товаре</a>
 
                     </div>
                 </div>
@@ -63,6 +100,24 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const darkThemeClass = 'dark-theme';
+
+        // Check local storage for theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add(darkThemeClass);
+        }
+
+        themeToggleButton.addEventListener('click', function() {
+            document.body.classList.toggle(darkThemeClass);
+            // Save the theme preference to local storage
+            const theme = document.body.classList.contains(darkThemeClass) ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+    });
+</script>
 
 </body>
 </html>
