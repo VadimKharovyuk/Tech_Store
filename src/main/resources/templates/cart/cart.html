@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -7,6 +8,7 @@
         body {
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .container {
@@ -16,6 +18,7 @@
         .card {
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, color 0.3s;
         }
 
         h2 {
@@ -26,6 +29,7 @@
 
         .table th, .table td {
             vertical-align: middle;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .remove-button {
@@ -63,18 +67,46 @@
         .nav-links a:hover {
             text-decoration: underline;
         }
+
+        /* Темная тема */
+        .dark-theme {
+            background-color: #212529;
+            color: #f8f9fa;
+        }
+
+        .dark-theme .card {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+
+        .dark-theme .table {
+            background-color: #495057;
+            color: #f8f9fa;
+        }
+
+        .dark-theme .table th, .dark-theme .table td {
+            border-color: #6c757d;
+        }
+
+        .dark-theme .remove-button {
+            background-color: #dc3545;
+            color: #f8f9fa;
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <div th:if="${cart}">
-        <div class="card">
-            <h2>Ваша корзина</h2>
-            <div class="nav-links">
-                <a href="/products">Все товары</a> |
-                <a href="/categories">Категории</a> |
-                <a href="/">Главная</a>
-            </div>
+    <div class="card">
+        <h2>Ваша корзина</h2>
+        <div class="nav-links">
+            <a href="/products">Все товары</a> |
+            <a href="/categories">Категории</a> |
+            <a href="/">Главная</a>
+        </div>
+        <div class="text-center mb-3">
+            <button id="theme-toggle" class="btn btn-secondary">Сменить тему</button>
+        </div>
+        <div th:if="${cart}">
             <table class="table">
                 <thead>
                 <tr>
@@ -100,12 +132,30 @@
             </table>
             <p th:if="${cart.items.isEmpty()}" class="empty-cart-message">Ваша корзина пуста.</p>
         </div>
+        <p th:if="${message}" th:text="${message}"></p>
     </div>
-    <p th:if="${message}" th:text="${message}"></p>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const darkThemeClass = 'dark-theme';
+
+        // Check local storage for theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add(darkThemeClass);
+        }
+
+        themeToggleButton.addEventListener('click', function() {
+            document.body.classList.toggle(darkThemeClass);
+            // Save the theme preference to local storage
+            const theme = document.body.classList.contains(darkThemeClass) ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+    });
+</script>
 </body>
 </html>

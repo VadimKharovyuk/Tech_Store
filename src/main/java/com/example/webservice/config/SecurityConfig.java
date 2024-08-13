@@ -1,12 +1,9 @@
 package com.example.webservice.config;//package com.example.webservice.config;//package com.example.webservice.config;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
@@ -23,7 +20,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/register", "/login").permitAll()
 
-                        .requestMatchers("/categories/add","/products/add", "/account/**","users/change-password","/cart/add-to-cart","/products").authenticated()
+                        .requestMatchers("/categories/add","/products/add", "/account/**","users/change-password","/cart/add-to-cart","/products","/cart").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
