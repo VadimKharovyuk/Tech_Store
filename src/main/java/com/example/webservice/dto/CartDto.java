@@ -13,6 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class CartDto {
     private Long id;
-    private Long userId;
-    private Set<CartItemDto> items;
+    private Long userId; // Поле userId
+    private Set<CartItemDto> items; // Поле items
+
 }

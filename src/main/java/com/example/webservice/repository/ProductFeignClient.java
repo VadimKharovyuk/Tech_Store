@@ -65,6 +65,12 @@ public interface ProductFeignClient {
 
 
 
+
+
+
+
+
+
 }
 
 

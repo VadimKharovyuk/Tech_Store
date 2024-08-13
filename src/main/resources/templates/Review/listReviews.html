@@ -22,6 +22,7 @@
   </div>
 
 
+
   <!-- Display the reviews in cards if there are reviews -->
   <div th:if="${!reviews.isEmpty()}">
     <div class="row">
@@ -40,7 +41,23 @@
 
   <!-- Link to create a new review for the product -->
   <a th:href="@{/reviews/create/{productId}(productId=${productId})}" class="btn btn-primary mt-4">Add Review</a>
+<!--  <form th:action="@{/reviews/product/delete/{productId}(productId=${productId})}" method="post" onsubmit="return confirm('Are you sure you want to delete all reviews for this product?');">-->
+<!--    <button type="submit" class="btn btn-danger mt-2">Удалить все отзывы</button>-->
+<!--  </form>-->
+<!--  <div th:if="${isAdmin}">-->
+<!--    <form th:action="@{/reviews/product/delete/{productId}(productId=${productId})}" method="post" onsubmit="return confirm('Are you sure you want to delete all reviews for this product?');">-->
+<!--      <button type="submit" class="btn btn-danger mt-2">Удалить все отзывы</button>-->
+<!--    </form>-->
+<!--  </div>-->
+
+
+  <div th:if="${user.role.equals('ADMIN')}" class="admin-link">
+    <form th:action="@{/reviews/product/delete/{productId}(productId=${productId})}" method="post" onsubmit="return confirm('Are you sure you want to delete all reviews for this product?');">
+      <button type="submit" class="btn btn-danger mt-2">Удалить все отзывы</button>
+    </form>
+  </div>
 </div>
+
 
 <!-- Optionally include Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

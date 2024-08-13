@@ -27,7 +27,7 @@
                 <tr th:each="item : ${cart.items}">
                     <td th:text="${item.productName}"></td>
                     <td th:text="${item.quantity}"></td>
-<!--                     <td th:text="${item.price}"></td> -->
+                    <td th:text="${item.getPrice()}"></td>
                 </tr>
                 </tbody>
             </table>

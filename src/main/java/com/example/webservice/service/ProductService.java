@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -27,32 +28,6 @@ public class ProductService {
         return productFeignClient.updateProduct(id, product);
     }
 
-
-    public void addProductToCart(Long userId, Long productId, String productName, int quantity) {
-        // Создание DTO для корзины
-        CartItemDto cartItemDto = new CartItemDto();
-        cartItemDto.setUserId(userId);
-        cartItemDto.setProductId(productId);
-        cartItemDto.setProductName(productName);
-        cartItemDto.setQuantity(quantity);
-
-        try {
-            // Вызов метода CartFeignClient для добавления товара в корзину
-            ResponseEntity<Void> response = cartFeignClient.addItemToCart(cartItemDto);
-
-            if (response.getStatusCode() == HttpStatus.CREATED) {
-                // Товар успешно добавлен
-                System.out.println("Product added to cart successfully.");
-            } else {
-                // Обработка случаев, когда корзина не найдена или произошла ошибка
-                System.err.println("Failed to add product to cart: " + response.getStatusCode());
-            }
-        } catch (Exception e) {
-            // Логирование ошибки и обработка исключений
-            System.err.println("Exception occurred while adding product to cart: " + e.getMessage());
-        }
-    }
-
     public List<ReviewDTO> getReviewsByProductId(Long productId) {
         return productFeignClient.getReviewsByProductId(productId);
     }
@@ -63,4 +38,7 @@ public class ProductService {
     public void deleteRewiresById(@PathVariable Long id){
      productFeignClient.deleteReview(id);
     }
+
+
+
 }

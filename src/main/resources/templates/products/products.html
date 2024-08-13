@@ -33,10 +33,10 @@
                         <!-- Form for adding product to cart -->
 
                         <form th:action="@{/cart/add-to-cart}" method="post">
-                            <!-- Include userId as a hidden field -->
                             <input type="hidden" name="userId" th:value="${userId}" />
                             <input type="hidden" name="productId" th:value="${product.id}" />
                             <input type="hidden" name="productName" th:value="${product.name}" />
+                            <input type="hidden" name="price"  th:value="${product.price}"/>
                             <input type="number" name="quantity" value="1" min="1" class="form-control mb-2" />
                             <button type="submit" class="btn btn-primary">Add to Cart</button>
                         </form>
@@ -47,9 +47,9 @@
                         <!-- Link to view reviews for this product -->
                         <a th:href="@{/reviews/list/{productId}(productId=${product.id})}" class="btn btn-info mt-2">Посмотреть отзывы о товаре </a>
 
-                        <form th:action="@{/reviews/product/delete/{productId}(productId=${product.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete all reviews for this product?');">
-                            <button type="submit" class="btn btn-danger mt-2">Удалить все отзывы</button>
-                        </form>
+<!--                        <form th:action="@{/reviews/product/delete/{productId}(productId=${product.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete all reviews for this product?');">-->
+<!--                            <button type="submit" class="btn btn-danger mt-2">Удалить все отзывы</button>-->
+<!--                        </form>-->
 
 
                     </div>
