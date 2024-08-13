@@ -76,5 +76,23 @@ public class CartController {
             return "error"; // имя HTML-шаблона для ошибки
         }
     }
+    @PostMapping("/remove-from-cart")
+    public String removeProductFromCart(@RequestParam Long itemId, RedirectAttributes redirectAttributes) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            UserDTO user = userFeignClient.getUserByUsername(username);
+            Long userId = user.getId(); // Получаем userId из объекта UserDTO
+
+            cartFeignClient.removeItemFromCart(itemId, userId);
+
+            redirectAttributes.addFlashAttribute("message", "Product removed from cart successfully!");
+            return "redirect:/cart"; // Перенаправляем на страницу корзины
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to remove product from cart.");
+            return "redirect:/cart"; // Перенаправляем на страницу корзины с ошибкой
+        }
+    }
+
 }
 

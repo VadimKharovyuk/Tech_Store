@@ -1,19 +1,79 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Cart</title>
+    <title>Корзина</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+        }
+
+        .remove-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .remove-button:hover {
+            background-color: #c82333;
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-top: 20px;
+        }
+
+        .nav-links {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            margin: 0 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <div th:if="${cart}">
         <div class="card">
             <h2>Ваша корзина</h2>
-            <div class="card">
-                <a href="/products">All Products</a> |
-                <a href="/categories">Categories</a>|
-                <a href="/">Home</a>
+            <div class="nav-links">
+                <a href="/products">Все товары</a> |
+                <a href="/categories">Категории</a> |
+                <a href="/">Главная</a>
             </div>
             <table class="table">
                 <thead>
@@ -21,6 +81,7 @@
                     <th>Название</th>
                     <th>Количество</th>
                     <th>Цена</th>
+                    <th>Действие</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,13 +89,23 @@
                     <td th:text="${item.productName}"></td>
                     <td th:text="${item.quantity}"></td>
                     <td th:text="${item.getPrice()}"></td>
+                    <td>
+                        <form th:action="@{/cart/remove-from-cart}" method="post" style="display:inline;">
+                            <input type="hidden" name="itemId" th:value="${item.id}"/>
+                            <button type="submit" class="remove-button">Удалить</button>
+                        </form>
+                    </td>
                 </tr>
                 </tbody>
             </table>
-            <p th:if="${cart.items.isEmpty()}">Ваша корзина пуста.</p>
+            <p th:if="${cart.items.isEmpty()}" class="empty-cart-message">Ваша корзина пуста.</p>
         </div>
     </div>
     <p th:if="${message}" th:text="${message}"></p>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
