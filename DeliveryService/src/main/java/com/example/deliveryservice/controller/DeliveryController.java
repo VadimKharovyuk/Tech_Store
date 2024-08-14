@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/deliveries")
 @AllArgsConstructor
@@ -23,6 +25,10 @@ public class DeliveryController {
         return ResponseEntity.ok(delivery);
     }
 
-
+    @GetMapping
+    public ResponseEntity<List<Delivery>> getAllDeliveries() {
+        List<Delivery> deliveries = deliveryService.getAllDeliveries();
+        return ResponseEntity.ok(deliveries);
+    }
 
 }

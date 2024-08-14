@@ -49,5 +49,7 @@ public class DeliveryService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    // Остальные методы...
+    public List<Delivery> getAllDeliveries() {
+        return deliveryRepository.findAll();
+    }
 }
