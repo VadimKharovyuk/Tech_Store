@@ -1,4 +1,4 @@
-package com.example.deliveryservice.dto;
+package com.example.webservice.dto;
 
 import lombok.Getter;
 import lombok.Setter;

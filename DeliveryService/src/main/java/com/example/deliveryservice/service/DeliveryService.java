@@ -1,7 +1,7 @@
 package com.example.deliveryservice.service;
 
 import com.example.deliveryservice.dto.CartItemDto;
-import com.example.deliveryservice.dto.DeliveryRequest;
+import com.example.deliveryservice.dto.DeliveryDTO;
 import com.example.deliveryservice.model.City;
 import com.example.deliveryservice.model.Delivery;
 import com.example.deliveryservice.model.DeliveryStatus;
@@ -18,14 +18,16 @@ public class DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
 
+    public Delivery createDelivery(DeliveryDTO request) {
+        // Логируем входные данные
+        System.out.println("Received delivery request: " + request);
 
-    public Delivery createDelivery(DeliveryRequest request) {
         Delivery delivery = new Delivery();
         delivery.setFullName(request.getFullName());
         delivery.setPhoneNumber(request.getPhoneNumber());
         delivery.setAddress(request.getAddress());
 
-        // Используйте fromCityName для преобразования строки в City
+        // Преобразование City
         City city;
         try {
             city = City.fromCityName(request.getCity());
@@ -39,8 +41,10 @@ public class DeliveryService {
         delivery.setTotalAmount(calculateTotalAmount(request.getItems()));
         delivery.setUserId(request.getUserId());
 
+        // Сохраняем и возвращаем
         return deliveryRepository.save(delivery);
     }
+
 
 
     private BigDecimal calculateTotalAmount(List<CartItemDto> items) {

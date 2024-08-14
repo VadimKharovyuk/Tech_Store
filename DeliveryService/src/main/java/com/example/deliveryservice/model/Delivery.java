@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+
 public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

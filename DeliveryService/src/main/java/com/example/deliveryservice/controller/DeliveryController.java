@@ -1,6 +1,6 @@
-package com.example.deliveryservice.controller;
+package com.example.deliveryservice.controller;//package com.example.deliveryservice.controller;
 
-import com.example.deliveryservice.dto.DeliveryRequest;
+import com.example.deliveryservice.dto.DeliveryDTO;
 import com.example.deliveryservice.model.City;
 import com.example.deliveryservice.model.Delivery;
 import com.example.deliveryservice.service.DeliveryService;
@@ -19,7 +19,7 @@ public class DeliveryController {
 
 
     @PostMapping
-    public ResponseEntity<Delivery> createDelivery(@RequestBody DeliveryRequest request) {
+    public ResponseEntity<Delivery> createDelivery(@RequestBody DeliveryDTO request) {
 
         Delivery delivery = deliveryService.createDelivery(request);
         return ResponseEntity.ok(delivery);
@@ -32,3 +32,4 @@ public class DeliveryController {
     }
 
 }
+

@@ -22,10 +22,6 @@ public class ReviewService {
         return reviewOptional.orElseThrow(() -> new ReviewNotFoundException("Review not found for ID: " + id));
     }
 
-    public void deleteReview(Long id) {
-        productFeignClient.deleteReview(id);
-    }
-
     public void createReview(ReviewDTO reviewDTO) {
         productFeignClient.createReview(reviewDTO);
     }
