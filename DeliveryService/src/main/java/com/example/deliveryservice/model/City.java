@@ -1,13 +1,12 @@
-package com.example.deliveryservice.model;
+package com.example.deliveryservice.model;//package com.example.deliveryservice.model;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-import lombok.Getter;
-
-@Getter
 public enum City {
-    CITY1("Kharkov"),
-    CITY2("Odessa"),
-    CITY3("Kiev"),
-    CITY4("Lviv");
+    KHARKOV("KHARKOV"),
+    ODESSA("ODESSA"),
+    KIEV("KIEV"),
+    LVIV("LVIV");
 
     private final String cityName;
 
@@ -15,6 +14,12 @@ public enum City {
         this.cityName = cityName;
     }
 
+    @JsonValue
+    public String getCityName() {
+        return cityName;
+    }
+
+    @JsonCreator
     public static City fromCityName(String cityName) {
         for (City city : City.values()) {
             if (city.getCityName().equalsIgnoreCase(cityName)) {

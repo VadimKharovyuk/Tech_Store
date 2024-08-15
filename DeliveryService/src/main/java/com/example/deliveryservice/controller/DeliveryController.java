@@ -17,15 +17,9 @@ public class DeliveryController {
 
     private final DeliveryService deliveryService;
 
-
-//    @PostMapping
-//    public ResponseEntity<Delivery> createDelivery(@RequestBody DeliveryDTO request) {
-//
-//        Delivery delivery = deliveryService.createDelivery(request);
-//        return ResponseEntity.ok(delivery);
-//    }
 @PostMapping
 public ResponseEntity<Delivery> createDelivery(@RequestBody DeliveryDTO request) {
+
     try {
         Delivery delivery = deliveryService.createDelivery(request);
         return ResponseEntity.ok(delivery);

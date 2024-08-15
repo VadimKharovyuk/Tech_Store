@@ -24,6 +24,7 @@ public class Delivery {
     @Enumerated(EnumType.STRING)
     private City city;
 
+
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 

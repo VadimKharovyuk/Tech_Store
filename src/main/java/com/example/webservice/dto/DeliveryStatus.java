@@ -1,8 +1,7 @@
-package com.example.deliveryservice.model;
+package com.example.webservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-
 public enum DeliveryStatus {
     PAID("PAID"),
     PENDING("PENDING"),

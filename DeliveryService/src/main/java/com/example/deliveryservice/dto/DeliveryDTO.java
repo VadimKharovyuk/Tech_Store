@@ -1,5 +1,5 @@
 package com.example.deliveryservice.dto;
-
+import com.example.deliveryservice.model.City;
 import com.example.deliveryservice.model.DeliveryStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Getter
 @Setter
@@ -19,17 +21,12 @@ public class DeliveryDTO {
     private String fullName;
     private String phoneNumber;
     private String address;
-    private String city;
-    private String status;
-    private List<CartItemDto> items;
+    private City city; // Используйте enum City вместо String
+    private DeliveryStatus status; // Измените тип на DeliveryStatus
+    private List<CartItemDto> items = new ArrayList<>();
     private BigDecimal totalAmount;
     private Long userId;
 
 
-    public DeliveryDTO(Long id, Long userId, String address, DeliveryStatus status) {
-        this.id = id;
-        this.userId = userId;
-        this.address = address;
-        this.status = status.name(); // Преобразуем статус в строку
-    }
+
 }
