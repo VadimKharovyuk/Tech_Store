@@ -29,3 +29,4 @@ import com.fasterxml.jackson.annotation.JsonValue;
             throw new IllegalArgumentException("Invalid city name: " + cityName);
         }
 }
+
