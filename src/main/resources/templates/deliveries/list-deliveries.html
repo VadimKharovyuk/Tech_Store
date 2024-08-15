@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>List Deliveries</title>
+    <title>Список доставок</title>
 </head>
 <body>
-<h1>List of Deliveries</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Full Name</th>
-        <th>Phone Number</th>
-        <th>Address</th>
-        <th>City</th>
-        <th>Status</th>
-        <th>Total Amount</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="delivery : ${deliveries}">
-        <td th:text="${delivery.fullName}"></td>
-        <td th:text="${delivery.phoneNumber}"></td>
-        <td th:text="${delivery.address}"></td>
-        <td th:text="${delivery.city}"></td>
-        <td th:text="${delivery.status}"></td>
-        <td th:text="${delivery.totalAmount}"></td>
-    </tr>
-    </tbody>
-</table>
+<h1>Ваши доставки</h1>
+<div th:if="${deliveries != null}">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Адрес</th>
+            <th>Статус</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="delivery : ${deliveries}">
+            <td th:text="${delivery.id}"></td>
+            <td th:text="${delivery.address}"></td>
+            <td th:text="${delivery.status}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:if="${deliveries == null}">
+    <p>Доставки не найдены.</p>
+</div>
 </body>
 </html>

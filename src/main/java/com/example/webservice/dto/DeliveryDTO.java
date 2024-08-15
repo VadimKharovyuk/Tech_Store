@@ -1,4 +1,5 @@
 package com.example.webservice.dto;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.util.List;
 @Setter
 public class DeliveryDTO {
     private Long id;
+
     private String fullName;
     private String phoneNumber;
     private String address;

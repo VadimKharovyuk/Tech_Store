@@ -11,7 +11,6 @@ public interface CartFeignClient {
 
     @PostMapping("/carts/items")
     ResponseEntity<Void> addItemToCart(@RequestBody CartItemDto cartItemDto);
-
     @GetMapping("/carts/{userId}")
     ResponseEntity<CartDto> getCart(@PathVariable("userId") Long userId);
 

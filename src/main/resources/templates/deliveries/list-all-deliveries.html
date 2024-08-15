@@ -1,0 +1,74 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Delivery List</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Delivery List</h1>-->
+
+<!--<div th:if="${error}">-->
+<!--    <p th:text="${error}"></p>-->
+<!--</div>-->
+
+<!--<table border="1">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>Full Name</th>-->
+<!--        <th>Phone Number</th>-->
+<!--        <th>Address</th>-->
+<!--        <th>City</th>-->
+<!--        <th>Items</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="delivery : ${deliveries}">-->
+<!--        <td th:text="${delivery.fullName}"></td>-->
+<!--        <td th:text="${delivery.phoneNumber}"></td>-->
+<!--        <td th:text="${delivery.address}"></td>-->
+<!--        <td th:text="${delivery.city}"></td>-->
+<!--        <td>-->
+<!--            <ul>-->
+<!--                <li th:each="item : ${delivery.items}" th:text="${item.productName} + ' (Quantity: ' + ${item.quantity} + ')'"></li>-->
+<!--            </ul>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+<!--<a href="/deliveries/new">Create New Delivery</a>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Список доставок</title>
+</head>
+<body>
+<h1>Список доставок</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Телефон</th>
+        <th>Адрес</th>
+        <th>Город</th>
+        <th>Статус</th>
+        <th>Общая сумма</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="delivery : ${deliveries}">
+        <td th:text="${delivery.id}">ID</td>
+        <td th:text="${delivery.fullName}">Имя</td>
+        <td th:text="${delivery.phoneNumber}">Телефон</td>
+        <td th:text="${delivery.address}">Адрес</td>
+        <td th:text="${delivery.city}">Город</td>
+        <td th:text="${delivery.status}">Статус</td>
+        <td th:text="${delivery.totalAmount}">Общая сумма</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

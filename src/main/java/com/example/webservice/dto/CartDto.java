@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -14,6 +15,7 @@ import java.util.Set;
 public class CartDto {
     private Long id;
     private Long userId; // Поле userId
-    private Set<CartItemDto> items; // Поле items
+//    private Set<CartItemDto> items; // Поле items
+    private List<CartItemDto> items;
 
 }
