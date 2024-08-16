@@ -1,4 +1,4 @@
-package com.example.deliveryservice.model;//package com.example.deliveryservice.model;
+package com.example.deliveryservice.model;//package com.example.deliveryservice.model;//package com.example.deliveryservice.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -6,7 +6,19 @@ public enum City {
     KHARKOV("KHARKOV"),
     ODESSA("ODESSA"),
     KIEV("KIEV"),
-    LVIV("LVIV");
+    LVIV("LVIV"),
+    DNIPRO("DNIPRO"),
+    ZAPOROZHYE("ZAPOROZHYE"),
+    MIKOLAIV("MIKOLAIV"),
+    VINNYTSIA("VINNYTSIA"),
+    POLTAVA("POLTAVA"),
+    SUMY("SUMY"),
+    CHERNIVTSI("CHERNIVTSI"),
+    CHERKASY("CHERKASY"),
+    TERNOPIL("TERNOPIL"),
+    KHERSON("KHERSON"),
+    RIVNE("RIVNE"),
+    UZHGOROD("UZHGOROD");
 
     private final String cityName;
 
