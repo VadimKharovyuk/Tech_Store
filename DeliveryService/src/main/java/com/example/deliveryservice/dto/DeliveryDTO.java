@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,12 +20,11 @@ public class DeliveryDTO {
     private String fullName;
     private String phoneNumber;
     private String address;
-    private City city; // Используйте enum City вместо String
-    private DeliveryStatus status; // Измените тип на DeliveryStatus
+    private City city;
+    private DeliveryStatus status;
     private List<CartItemDto> items = new ArrayList<>();
     private BigDecimal totalAmount;
     private Long userId;
-
 
 
 }

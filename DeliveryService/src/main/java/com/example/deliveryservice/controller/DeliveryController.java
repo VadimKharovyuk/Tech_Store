@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/deliveries")
@@ -38,9 +39,12 @@ public ResponseEntity<Delivery> createDelivery(@RequestBody DeliveryDTO request)
     }
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<DeliveryDTO>> getDeliveriesByUserId(@PathVariable Long userId) {
+        System.out.println("Запрос на получение доставок для пользователя с ID: " + userId);
         List<DeliveryDTO> deliveries = deliveryService.getDeliveriesByUserId(userId);
+        System.out.println("Полученные доставки: " + deliveries);
         return ResponseEntity.ok(deliveries);
     }
+
 
 }
 

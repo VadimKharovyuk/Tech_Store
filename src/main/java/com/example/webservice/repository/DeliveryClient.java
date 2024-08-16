@@ -18,7 +18,6 @@ public interface DeliveryClient {
     @GetMapping("/deliveries")
     List<DeliveryDTO> listDeliveries();
 
-
     @GetMapping("/deliveries/user/{userId}")
     List<DeliveryDTO> listDeliveriesByUserId(@PathVariable("userId") Long userId);
 
