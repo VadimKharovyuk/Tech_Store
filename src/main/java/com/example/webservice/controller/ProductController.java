@@ -46,6 +46,7 @@ public String getProducts(Model model) {
 
 
 
+
     @GetMapping("/products/new")
     public String showAddProductForm(Model model) {
         model.addAttribute("product", new Product());
