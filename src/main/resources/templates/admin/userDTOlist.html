@@ -1,190 +1,47 @@
 
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Список пользователей</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 16px;
-        }
-        .header {
-            margin-bottom: 16px;
-        }
-        .button {
-            padding: 8px 16px;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .button-block {
-            background-color: red;
-        }
-        .button-unblock {
-            background-color: green;
-        }
-        .button-delete {
-            background-color: #ef2f16;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <div class="header">
-        <h1>Список пользователей</h1>
-        <a href="/admin/dashboard">Назад в админ панель</a>
-    </div>
-    <table>
-        <thead>
-        <tr>
-            <th>Имя пользователя</th>
-            <th>Email</th>
-            <th>Роль</th>
-            <th>Статус</th>
-            <th>Действие</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.username}">Имя пользователя</td>
-            <td th:text="${user.email}">Email</td>
-            <td th:text="${user.role}">Роль</td>
-            <td th:text="${user.blocked ? 'Заблокирован' : 'Активен'}">Статус</td>
-            <td>
-                <form th:action="@{/users/block/{userId}(userId=${user.id})}" method="post" th:if="${!user.blocked}">
-                    <button type="submit" class="button button-block">Заблокировать</button>
-                </form>
-                <form th:action="@{/users/unblock/{userId}(userId=${user.id})}" method="post" th:if="${user.blocked}">
-                    <button type="submit" class="button button-unblock">Разблокировать</button>
-                </form>
-                <br>
-                <form th:action="@{/users/delete/{userId}(userId=${user.id})}" method="post">
-                    <input type="hidden" name="_method" value="delete"/>
-                    <button type="submit" class="button button-delete">Удалить</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-</body>
-</html>
-
-
 <!--<!DOCTYPE html>-->
 <!--<html xmlns:th="http://www.thymeleaf.org">-->
 <!--<head>-->
 <!--    <meta charset="UTF-8">-->
 <!--    <title>Список пользователей</title>-->
 <!--    <style>-->
-<!--        /* Reset some default styles */-->
-<!--        * {-->
-<!--            margin: 0;-->
-<!--            padding: 0;-->
-<!--            box-sizing: border-box;-->
-<!--        }-->
-
-<!--        /* Set a dark background color */-->
-<!--        body {-->
-<!--            background-color: #121212;-->
-<!--            color: #e0e0e0;-->
-<!--            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;-->
-<!--        }-->
-
-<!--        .container {-->
-<!--            max-width: 1200px;-->
-<!--            margin: 0 auto;-->
-<!--            padding: 20px;-->
-<!--        }-->
-
-<!--        .header {-->
-<!--            margin-bottom: 20px;-->
-<!--            display: flex;-->
-<!--            justify-content: space-between;-->
-<!--            align-items: center;-->
-<!--        }-->
-
-<!--        h1 {-->
-<!--            font-size: 28px;-->
-<!--            color: #e0e0e0;-->
-<!--        }-->
-
-<!--        a {-->
-<!--            color: #bb86fc;-->
-<!--            text-decoration: none;-->
-<!--            font-size: 16px;-->
-<!--        }-->
-
-<!--        a:hover {-->
-<!--            text-decoration: underline;-->
-<!--        }-->
-
 <!--        table {-->
 <!--            width: 100%;-->
 <!--            border-collapse: collapse;-->
-<!--            background-color: #1f1f1f;-->
-<!--            border-radius: 8px;-->
-<!--            overflow: hidden;-->
 <!--        }-->
-
 <!--        table, th, td {-->
-<!--            border: 1px solid #333;-->
+<!--            border: 1px solid #ddd;-->
 <!--        }-->
-
 <!--        th, td {-->
-<!--            padding: 12px;-->
+<!--            padding: 8px;-->
 <!--            text-align: left;-->
 <!--        }-->
-
 <!--        th {-->
-<!--            background-color: #333;-->
-<!--            color: #e0e0e0;-->
+<!--            background-color: #f2f2f2;-->
 <!--        }-->
-
-<!--        td {-->
-<!--            color: #e0e0e0;-->
+<!--        .container {-->
+<!--            max-width: 1200px;-->
+<!--            margin: 0 auto;-->
+<!--            padding: 16px;-->
 <!--        }-->
-
+<!--        .header {-->
+<!--            margin-bottom: 16px;-->
+<!--        }-->
 <!--        .button {-->
 <!--            padding: 8px 16px;-->
 <!--            color: white;-->
 <!--            border: none;-->
 <!--            border-radius: 4px;-->
 <!--            cursor: pointer;-->
-<!--            font-size: 14px;-->
 <!--        }-->
-
 <!--        .button-block {-->
-<!--            background-color: #ff5722;-->
+<!--            background-color: red;-->
 <!--        }-->
-
 <!--        .button-unblock {-->
-<!--            background-color: #4caf50;-->
+<!--            background-color: green;-->
 <!--        }-->
-
 <!--        .button-delete {-->
-<!--            background-color: #f44336;-->
-<!--        }-->
-
-<!--        .button:hover {-->
-<!--            opacity: 0.8;-->
+<!--            background-color: #ef2f16;-->
 <!--        }-->
 <!--    </style>-->
 <!--</head>-->
@@ -229,3 +86,145 @@
 <!--</div>-->
 <!--</body>-->
 <!--</html>-->
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список пользователей</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .light-theme {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .dark-theme {
+            background-color: #333;
+            color: #f4f4f4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+        .header {
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .header a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .button {
+            padding: 8px 16px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 4px;
+            transition: background-color 0.3s;
+        }
+        .button-block {
+            background-color: #ff5722;
+        }
+        .button-unblock {
+            background-color: #4caf50;
+        }
+        .button-delete {
+            background-color: #f44336;
+        }
+        .button:hover {
+            opacity: 0.9;
+        }
+        .theme-toggle {
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body class="light-theme">
+<div class="container">
+    <div class="header">
+        <h1>Список пользователей</h1>
+        <a href="/admin/dashboard">Назад в админ панель</a>
+        <button id="themeToggle" class="btn btn-secondary theme-toggle">Переключить тему</button>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Имя пользователя</th>
+            <th>Email</th>
+            <th>Роль</th>
+            <th>Статус</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}">Имя пользователя</td>
+            <td th:text="${user.email}">Email</td>
+            <td th:text="${user.role}">Роль</td>
+            <td th:text="${user.blocked ? 'Заблокирован' : 'Активен'}">Статус</td>
+            <td>
+                <form th:action="@{/users/block/{userId}(userId=${user.id})}" method="post" th:if="${!user.blocked}">
+                    <button type="submit" class="button button-block">Заблокировать</button>
+                </form>
+                <form th:action="@{/users/unblock/{userId}(userId=${user.id})}" method="post" th:if="${user.blocked}">
+                    <button type="submit" class="button button-unblock">Разблокировать</button>
+                </form>
+                <br>
+                <form th:action="@{/users/delete/{userId}(userId=${user.id})}" method="post">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" class="button button-delete">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    // Получаем элемент переключателя темы и устанавливаем текущую тему
+    const themeToggleButton = document.getElementById('themeToggle');
+    const currentTheme = localStorage.getItem('theme') || 'light-theme';
+    document.body.classList.add(currentTheme);
+
+    themeToggleButton.addEventListener('click', () => {
+        // Переключаем класс темы
+        if (document.body.classList.contains('light-theme')) {
+            document.body.classList.remove('light-theme');
+            document.body.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark-theme');
+        } else {
+            document.body.classList.remove('dark-theme');
+            document.body.classList.add('light-theme');
+            localStorage.setItem('theme', 'light-theme');
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.example.emailservicerest.controller;
 
+import com.example.emailservicerest.service.EmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

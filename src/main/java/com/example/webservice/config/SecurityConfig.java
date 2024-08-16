@@ -34,6 +34,12 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/")
                         .permitAll()
                 )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/blocked")
+                        .permitAll()
+                )
                 .exceptionHandling(exception -> exception
                         .accessDeniedPage("/error")
                 )
