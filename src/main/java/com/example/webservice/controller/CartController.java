@@ -1,4 +1,5 @@
 package com.example.webservice.controller;
+
 import com.example.webservice.dto.CartDto;
 import com.example.webservice.dto.CartItemDto;
 import com.example.webservice.dto.UserDTO;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 @Slf4j
 
 @Controller
@@ -28,28 +30,55 @@ public class CartController {
     private final CardService cardService;
 
 
-
-
+    //    @PostMapping("/add-to-cart")
+//    public String addProductToCart(@ModelAttribute CartItemDto cartItemDto, RedirectAttributes redirectAttributes) {
+//        try {
+//            // Логирование данных запроса
+//            log.info("Adding product to cart: {}", cartItemDto);
+//
+//            // Используем сервис для добавления товара в корзину
+//            cardService.addProductToCart(cartItemDto);
+//
+//            // Устанавливаем сообщение об успешном добавлении
+//            redirectAttributes.addFlashAttribute("message", "Product added to cart successfully!");
+//            return "redirect:/cart"; // Перенаправляем на главную страницу или другую страницу
+//        } catch (Exception e) {
+//            log.error("Failed to add product to cart", e); // Логирование ошибки
+//            redirectAttributes.addFlashAttribute("error", "Failed to add product to cart.");
+//            return "redirect:/"; // Перенаправляем на главную страницу или другую страницу
+//        }
+//    }
     @PostMapping("/add-to-cart")
     public String addProductToCart(@ModelAttribute CartItemDto cartItemDto, RedirectAttributes redirectAttributes) {
         try {
             // Логирование данных запроса
             log.info("Adding product to cart: {}", cartItemDto);
 
+            // Получение текущего аутентифицированного пользователя
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName(); // Получаем имя пользователя
+
+            // Получение информации о пользователе
+            UserDTO user = userFeignClient.getUserByUsername(username);
+            if (user == null) {
+                throw new Exception("User not found");
+            }
+
+            // Обновляем DTO с ID пользователя
+            cartItemDto.setUserId(user.getId());
+
             // Используем сервис для добавления товара в корзину
             cardService.addProductToCart(cartItemDto);
 
             // Устанавливаем сообщение об успешном добавлении
             redirectAttributes.addFlashAttribute("message", "Product added to cart successfully!");
-            return "redirect:/cart"; // Перенаправляем на главную страницу или другую страницу
+            return "redirect:/cart"; // Перенаправляем на страницу корзины
         } catch (Exception e) {
             log.error("Failed to add product to cart", e); // Логирование ошибки
             redirectAttributes.addFlashAttribute("error", "Failed to add product to cart.");
-            return "redirect:/"; // Перенаправляем на главную страницу или другую страницу
+            return "redirect:/"; // Перенаправляем на главную страницу
         }
     }
-
-
 
 
     @GetMapping
@@ -76,6 +105,7 @@ public class CartController {
             return "error"; // имя HTML-шаблона для ошибки
         }
     }
+
     @PostMapping("/remove-from-cart")
     public String removeProductFromCart(@RequestParam Long itemId, RedirectAttributes redirectAttributes) {
         try {

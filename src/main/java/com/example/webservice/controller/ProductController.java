@@ -27,15 +27,15 @@ public class ProductController {
 
 @GetMapping("/products")
 public String getProducts(Model model) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String username = authentication.getName();
-
-    // Получение информации о пользователе
-    UserDTO user = userFeignClient.getUserByUsername(username);
-    Long userId = user.getId();
-
-    // Добавляем userId в модель
-    model.addAttribute("userId", userId);
+//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    String username = authentication.getName();
+////
+////    // Получение информации о пользователе
+//    UserDTO user = userFeignClient.getUserByUsername(username);
+//    Long userId = user.getId();
+////
+////    // Добавляем userId в модель
+//    model.addAttribute("userId", userId);
 
     // Получение списка продуктов
     List<Product> products = productFeignClient.getAllProducts();

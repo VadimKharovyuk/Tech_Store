@@ -97,17 +97,21 @@ import com.example.webservice.repository.UserFeignClient;
 import com.example.webservice.service.UserService;
 import feign.FeignException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @AllArgsConstructor
+@Slf4j
 public class UserController {
 
     private final UserFeignClient userFeignClient;
@@ -147,11 +151,6 @@ public class UserController {
     public String blocked(){
         return "user/Blocked";
     }
-
-
-
-
-
 
     @GetMapping("/register")
     public String registerForm(Model model) {
