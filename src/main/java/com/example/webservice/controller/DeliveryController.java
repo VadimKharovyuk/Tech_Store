@@ -57,6 +57,7 @@ public class DeliveryController {
     }
 
 
+
     @GetMapping("/deliveries-list")
     public String listDeliveries(Model model) {
         List<DeliveryDTO> deliveries = deliveryClient.listDeliveries();
