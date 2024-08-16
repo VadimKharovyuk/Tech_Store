@@ -1,60 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <meta charset="UTF-8">
     <title>Личный кабинет</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             color: #343a40;
         }
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            margin-top: 30px;
+        }
+        h1 {
+            margin-bottom: 20px;
         }
         .card {
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 16px;
-            margin: 16px 0;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #ffffff;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .card h2 {
-            margin-top: 0;
-            font-size: 24px;
+            margin-top: 15px;
+            margin-bottom: 15px;
         }
-        .admin-link {
-            margin-top: 20px;
+        .card a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .card a:hover {
+            text-decoration: underline;
         }
         .button {
-            background-color: #007bff;
-            color: #fff;
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
             border: none;
             border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
             font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
         }
-        .button:hover {
+        .button-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .button-primary:hover {
             background-color: #0056b3;
         }
         .button-danger {
             background-color: #dc3545;
+            color: #fff;
         }
         .button-danger:hover {
             background-color: #c82333;
         }
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
+        .admin-link {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -62,10 +65,10 @@
 <div class="container">
     <h1>Добро пожаловать, <span th:text="${name}">Пользователь</span>!</h1>
     <p>Это ваш личный кабинет.</p>
-    <p><a href="/">На главную</a></p>
+    <p><a href="/" class="button button-primary">На главную</a></p>
 
     <div th:if="${user.role.equals('ADMIN')}" class="admin-link">
-        <a class="button" href="/admin/dashboard">Админ панель</a>
+        <a class="button button-primary" href="/admin/dashboard">Админ панель</a>
     </div>
 
     <form action="/logout" method="post">
@@ -74,17 +77,26 @@
 
     <!-- Карточка для смены пароля -->
     <div class="card">
-        <h2>Смена пароля</h2>
-        <p>Перейдите по ссылке ниже, чтобы изменить ваш пароль:</p>
-        <a href="/change-password">Сменить пароль</a>
+        <div class="card-body">
+            <h2>Смена пароля</h2>
+            <p>Перейдите по ссылке ниже, чтобы изменить ваш пароль:</p>
+            <a href="/change-password">Сменить пароль</a>
+        </div>
     </div>
     <div class="card">
-        <a href="/cart"> Корзина</a>
+        <div class="card-body">
+            <a href="/cart">Корзина</a>
+        </div>
     </div>
     <div class="card">
-        <a href="/deliveries"> Мои заказы</a>
+        <div class="card-body">
+            <a href="/deliveries">Мои заказы</a>
+        </div>
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
