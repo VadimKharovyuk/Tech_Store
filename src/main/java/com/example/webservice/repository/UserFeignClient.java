@@ -55,7 +55,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "SECURITYSERVIS", configuration = FeignConfig.class)
+@FeignClient(name = "SECURITY", configuration = FeignConfig.class)
 public interface UserFeignClient {
 
     @GetMapping("/api/users")

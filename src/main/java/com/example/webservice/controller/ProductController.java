@@ -69,18 +69,7 @@ public String getProducts(Model model) {
     @GetMapping("/products/category/{categoryId}")
     public String getProductsByCategory(@PathVariable Long categoryId, Model model) {
         List<Product> products = productFeignClient.getProductsByCategory(categoryId);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-
-        // Получение информации о пользователе
-        UserDTO user = userFeignClient.getUserByUsername(username);
-        Long userId = user.getId();
-
-        // Добавляем userId в модель
-        model.addAttribute("userId", userId);
         model.addAttribute("products", products);
-
-
         return "products/products";
     }
     @GetMapping("/categories/new")
