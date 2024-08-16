@@ -36,7 +36,6 @@ public String getProducts(Model model) {
 ////
 ////    // Добавляем userId в модель
 //    model.addAttribute("userId", userId);
-
     // Получение списка продуктов
     List<Product> products = productFeignClient.getAllProducts();
     model.addAttribute("products", products);
