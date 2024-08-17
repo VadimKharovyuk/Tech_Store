@@ -1,8 +1,10 @@
 package com.example.security.controller;
 
+import com.example.security.dto.UserDTO;
 import com.example.security.model.User;
 import com.example.security.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,29 +14,54 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @AllArgsConstructor
+@Slf4j
 public class UserController {
-
     private final UserService userService;
+
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         if (userService.existsByEmail(user.getEmail())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null); // Вернуть код ошибки без тела ответа
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         User newUser = userService.registerUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
+
+
+    @GetMapping("/by-email")
+    public ResponseEntity<UserDTO> getUserByEmail(@RequestParam String email) {
+        return userService.findUserByEmail(email)
+                .map(userDTO -> ResponseEntity.ok(userDTO))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+//    @PostMapping("/register")
+//    public ResponseEntity<User> registerUser(@RequestBody User user) {
+//        if (userService.existsByEmail(user.getEmail())) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                    .body(null); // Вернуть код ошибки без тела ответа
+//        }
+//        User newUser = userService.registerUser(user);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+//    }
+
+
+
     @GetMapping("/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
-        User user = userService.findByUsername(username);
-        if (user == null) {
+    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
+        log.info("Received request to get user by username: {}", username);
+        UserDTO userDTO = userService.findByUsernameDto(username);
+        if (userDTO == null) {
+            log.warn("User not found for username: {}", username);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userDTO);
     }
+
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
-        User user = userService.findByUsername(username);
+        UserDTO user = userService.getUserByUsername(username);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
         }

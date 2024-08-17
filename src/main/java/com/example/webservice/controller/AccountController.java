@@ -1,8 +1,10 @@
 package com.example.webservice.controller;
 
 import com.example.webservice.dto.UserDTO;
+import com.example.webservice.repository.UserFeignClient;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@AllArgsConstructor
 public class AccountController {
+    private final UserFeignClient userFeignClient;
 
 @GetMapping("/account")
 public String accountUser(Model model) {
@@ -31,7 +35,6 @@ public String accountUser(Model model) {
 
     return "account/account";
 }
-
 
     @PostMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {

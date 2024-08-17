@@ -2,6 +2,7 @@ package com.example.webservice.config;
 
 import com.example.webservice.dto.UserDTO;
 import com.example.webservice.repository.UserFeignClient;
+import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
@@ -42,8 +43,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     }
 
     private boolean userExists(String email) {
-        // Логика проверки, существует ли пользователь с таким email в базе данных
-        // Можно реализовать вызов через FeignClient для получения пользователя по email
-        return false;
-    }
+        try {
+            // Попытка получить пользователя по email через FeignClient
+            UserDTO existingUser = userFeignClient.getUserByEmail(email);
+            return existingUser != null;
+        } catch (FeignException e) {
+
+            return false;
+        }
+}
 }

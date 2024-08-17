@@ -104,6 +104,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.Map;
@@ -115,15 +116,16 @@ public class UserController {
 
     private final UserFeignClient userFeignClient;
 
-    @PostMapping("/register")
-    public ResponseEntity<Void> registerUser(@RequestBody UserDTO userDTO) {
-        try {
-            userFeignClient.registerUser(userDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+@PostMapping("/register")
+public RedirectView registerUser(@ModelAttribute UserDTO userDTO) {
+    try {
+        userFeignClient.registerUser(userDTO);
+        return new RedirectView("/");
+    } catch (Exception e) {
+        log.error("Error registering user", e);
+        return new RedirectView("/error"); // Перенаправление на страницу ошибки, если нужно
     }
+}
     @PostMapping("/login")
     public String loginUser(@RequestParam String username, @RequestParam String password, RedirectAttributes redirectAttributes) {
         try {

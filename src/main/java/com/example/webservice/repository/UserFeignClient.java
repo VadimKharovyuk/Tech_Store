@@ -59,11 +59,17 @@ import java.util.List;
 public interface UserFeignClient {
 
 
+    //    @PostMapping("/api/users/register")
+//    ResponseEntity<Void> registerUser(@RequestBody UserDTO userDTO);
     @PostMapping("/api/users/register")
-    ResponseEntity<Void> registerUser(@RequestBody UserDTO userDTO);
+    UserDTO registerUser(@RequestBody UserDTO userDTO);
+
+    @GetMapping("/api/users/by-email")
+    UserDTO getUserByEmail(@RequestParam String email);
 
     @GetMapping("/api/users/{username}")
     UserDTO getUserByUsername(@PathVariable String username);
+
 
     @PostMapping("/api/users/login")
     ResponseEntity<UserDTO> login(@RequestParam String username,
@@ -95,6 +101,5 @@ public interface UserFeignClient {
 
     @DeleteMapping("/api/users/delete/{id}")
     ResponseEntity<Void> deleteUserById(@PathVariable long id);
-
 
 }
