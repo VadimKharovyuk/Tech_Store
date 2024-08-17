@@ -55,14 +55,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "SECURITY", configuration = FeignConfig.class)
+@FeignClient(name = "Security", url = "http://localhost:5057")
 public interface UserFeignClient {
+
+
+    @PostMapping("/api/users/register")
+    ResponseEntity<Void> registerUser(@RequestBody UserDTO userDTO);
+
+    @GetMapping("/api/users/{username}")
+    UserDTO getUserByUsername(@PathVariable String username);
+
+    @PostMapping("/api/users/login")
+    ResponseEntity<UserDTO> login(@RequestParam String username,
+                                  @RequestParam String password);
 
     @GetMapping("/api/users")
     List<UserDTO> getAllUsers();
 
-    @PostMapping("/api/users/register")
-    UserDTO registerUser(@RequestBody UserDTO userDTO);
 
     @PutMapping("/api/users/change-password")
     String changePassword(
@@ -79,18 +88,13 @@ public interface UserFeignClient {
     @GetMapping("/api/users/is-blocked")
     Boolean isBlocked(@RequestParam String username);
 
-    @PostMapping("/api/users/login")
-    ResponseEntity<UserDTO> login(@RequestParam String username,
-                                  @RequestParam String password);
-
     @PostMapping("/api/password/reset")
     ResponseEntity<String> sendEmailPassword(
             @RequestParam String email,
             @RequestParam String newPassword);
 
     @DeleteMapping("/api/users/delete/{id}")
-    ResponseEntity<Void>deleteUserById(@PathVariable long id);
+    ResponseEntity<Void> deleteUserById(@PathVariable long id);
 
-    @GetMapping("/api/users/{username}")
-    UserDTO getUserByUsername(@PathVariable String username);
+
 }

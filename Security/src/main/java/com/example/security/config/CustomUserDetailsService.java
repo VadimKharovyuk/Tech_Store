@@ -4,6 +4,7 @@ import com.example.security.model.User;
 import com.example.security.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,12 +17,16 @@ import java.util.Collections;
 @AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-
     private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
+        if (user == null) {
+            System.out.println("User not found: " + username); // Логирование
+            throw new UsernameNotFoundException("User not found");
+        }
+        System.out.println("User found: " + user.getUsername()); // Логирование
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }

@@ -100,7 +100,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -115,7 +114,44 @@ import java.util.Map;
 public class UserController {
 
     private final UserFeignClient userFeignClient;
-    private final UserService userService;
+
+    @PostMapping("/register")
+    public ResponseEntity<Void> registerUser(@RequestBody UserDTO userDTO) {
+        try {
+            userFeignClient.registerUser(userDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+    @PostMapping("/login")
+    public String loginUser(@RequestParam String username, @RequestParam String password, RedirectAttributes redirectAttributes) {
+        try {
+            ResponseEntity<UserDTO> response = userFeignClient.login(username, password);
+
+            System.out.println("Response Status: " + response.getStatusCode());
+            System.out.println("Response Body: " + response.getBody());
+
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                UserDTO userDTO = response.getBody();
+
+                if (userDTO.isBlocked()) {
+                    return "redirect:/blocked";
+                }
+
+                return "redirect:/";
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Неправильный логин или пароль");
+                return "redirect:/login";
+            }
+        } catch (FeignException e) {
+            redirectAttributes.addFlashAttribute("error", "Ошибка входа: " + e.getMessage());
+            return "redirect:/login";
+        }
+    }
+
+
+
 
     @GetMapping("/login")
     public String loginForm(Model model) {
@@ -123,30 +159,6 @@ public class UserController {
         return "user/Login";
     }
 
-    @PostMapping("/login")
-    public String loginUser(@RequestParam String username, @RequestParam String password, RedirectAttributes redirectAttributes) {
-        try {
-            ResponseEntity<UserDTO> response = userFeignClient.login(username, password);
-
-            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-                UserDTO userDTO = response.getBody();
-
-                // Проверка, заблокирован ли пользователь
-                if (userDTO.isBlocked()) {
-                    return "redirect:/blocked"; // Редирект на страницу с сообщением о блокировке
-                }
-
-                // Логика успешного входа
-                return "redirect:/"; // Переход на главную страницу или другую страницу после успешного входа
-            } else {
-                redirectAttributes.addFlashAttribute("error", "Неправильный логин или пароль");
-                return "redirect:/login"; // Редирект на страницу входа с ошибкой
-            }
-        } catch (FeignException e) {
-            redirectAttributes.addFlashAttribute("error", "Ошибка входа: " + e.getMessage());
-            return "redirect:/login"; // Редирект на страницу входа с ошибкой
-        }
-    }
     @GetMapping("/blocked")
     public String blocked(){
         return "user/Blocked";
@@ -158,11 +170,7 @@ public class UserController {
         return "user/register";
     }
 
-    @PostMapping("/register")
-    public String registerUser(@ModelAttribute UserDTO userDTO) {
-        userFeignClient.registerUser(userDTO);
-        return "redirect:/";
-    }
+
 
     @GetMapping("/users")
     public String getAllUsers(Model model) {
@@ -196,5 +204,6 @@ public class UserController {
         return "redirect:/admin/users";
 
     }
+
 
 }

@@ -16,7 +16,4 @@ public class UserService {
         return userFeignClient.getAllUsers();
     }
 
-    public UserDTO getUserRole(String username) {
-        return userFeignClient.getUserByUsername(username);
-    }
 }

@@ -15,6 +15,38 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        if (userService.existsByEmail(user.getEmail())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(null); // Вернуть код ошибки без тела ответа
+        }
+        User newUser = userService.registerUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+    }
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(user);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+        }
+        if (user.isBlocked()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is blocked");
+        }
+        boolean passwordMatches = userService.getPasswordEncoder().matches(password, user.getPassword());
+        if (!passwordMatches) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+        return ResponseEntity.ok("Login successful");
+    }
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
@@ -22,15 +54,8 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        if (userService.existsByEmail(user.getEmail())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null); // Return an appropriate error message if email already exists
-        }
-        User newUser = userService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
-    }
+
+
 
     @PutMapping("/change-password")
     public ResponseEntity<String> changePassword(
@@ -64,19 +89,8 @@ public class UserController {
         boolean blocked = userService.isBlocked(username);
         return ResponseEntity.ok(blocked);
     }
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
 
-        User user = userService.findByUsername(username);
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
-        }
-        boolean passwordMatches = userService.getPasswordEncoder().matches(password, user.getPassword());
-        if (!passwordMatches) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-        }
-        return ResponseEntity.ok("Login successful");
-    }
+
 
 
 }

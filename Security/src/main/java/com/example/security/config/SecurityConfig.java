@@ -1,42 +1,45 @@
 package com.example.security.config;
 
-import lombok.AllArgsConstructor;
+import com.example.security.config.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
+
+    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((req) -> req
-                        .requestMatchers("/categories/**", "/products/**").authenticated() // Требует аутентификацию для /categories и /products
-                        .anyRequest().permitAll() // Разрешает доступ ко всем остальным запросам
+                        .requestMatchers("/api/users/login","/api/users/**","/api/users/register","/api/users/change-password").permitAll()// Разрешает доступ к /api/users/*
+                        .anyRequest().authenticated() // Остальные запросы требуют аутентификацию
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login") // Укажите URL вашей страницы входа
-                        .defaultSuccessUrl("/", true) // URL после успешного входа
-                        .permitAll() // Разрешает доступ к странице входа
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/", true)
+                        .permitAll()
                 )
                 .logout((log) -> log
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout=true")
-                        .permitAll() // Разрешает доступ к выходу
+                        .permitAll()
                 )
                 .exceptionHandling((ex) -> ex
-                        .accessDeniedPage("/access-denied") // Страница для заблокированных пользователей
+                        .accessDeniedPage("/access-denied")
                 )
                 .csrf().disable(); // Отключение CSRF защиты, если это необходимо
         return http.build();
@@ -45,5 +48,14 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder())
+                .and()
+                .build();
     }
 }

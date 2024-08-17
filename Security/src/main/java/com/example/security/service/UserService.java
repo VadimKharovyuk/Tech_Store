@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -35,11 +36,17 @@ public class UserService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        } else {
+            user.setPassword("OAuth2User_" + UUID.randomUUID().toString());  // Генерация пароля для OAuth2
+        }
+
         // Установите роль по умолчанию
         user.setRole(User.Role.USER);
-        User newUser = userRepository.save(user);
 
+        User newUser = userRepository.save(user);
 
         // Отправка email-письма через FeignClient
         EmailRequest emailRequest = new EmailRequest(newUser.getEmail(), "Welcome!", "Dear " + newUser.getUsername() + ", welcome to our store!");
@@ -51,6 +58,7 @@ public class UserService {
 
         return newUser;
     }
+
 
 
     public User findByUsername(String username) {
