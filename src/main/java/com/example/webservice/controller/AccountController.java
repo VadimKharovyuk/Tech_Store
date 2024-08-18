@@ -36,6 +36,10 @@ public String accountUser(Model model) {
     return "account/account";
 }
 
+
+
+
+
     @PostMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

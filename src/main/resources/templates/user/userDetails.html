@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .user-info {
+            margin-bottom: 20px;
+        }
+        .user-info label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>User Details</h1>
+    <div th:if="${user != null}" class="user-info">
+        <p><label>Username:</label> <span th:text="${user.username}">Username</span></p>
+        <p><label>Email:</label> <span th:text="${user.email}">Email</span></p>
+        <p><label>Role:</label> <span th:text="${user.role}">Role</span></p>
+        <p><label>Blocked:</label> <span th:text="${user.blocked ? 'Yes' : 'No'}">Blocked Status</span></p>
+    </div>
+    <div th:if="${error != null}">
+        <p th:text="${error}">An error occurred</p>
+    </div>
+</div>
+</body>
+</html>

@@ -100,6 +100,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -115,6 +117,52 @@ import java.util.Map;
 public class UserController {
 
     private final UserFeignClient userFeignClient;
+
+
+
+
+    @GetMapping("/ac")
+    public String accountUser(Model model, Authentication authentication) {
+        OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
+        String username = oauthUser.getAttribute("name"); // Используйте правильный атрибут, соответствующий вашему OAuth2 провайдеру
+        System.out.println("Retrieved username: " + username);
+        try {
+            UserDTO userDTO = userFeignClient.getUserByUsername(username);
+            if (userDTO == null) {
+                return "redirect:/error";
+            }
+            model.addAttribute("user", userDTO);
+            return "user/ac";
+        } catch (Exception e) {
+            log.error("Error retrieving user details", e);
+            return "redirect:/error";
+        }
+    }
+
+
+
+
+    @GetMapping("/user/{username}")
+    public String testGetUserByUsername(@PathVariable String username, Model model) {
+        try {
+            // Использование FeignClient для получения информации о пользователе
+            UserDTO userDTO = userFeignClient.getUserByUsername(username);
+
+            if (userDTO == null) {
+                log.warn("User not found for username: {}", username);
+                model.addAttribute("error", "User not found");
+                return "error"; // Назначьте соответствующую страницу ошибки
+            }
+
+            // Добавление пользователя в модель для отображения на странице
+            model.addAttribute("user", userDTO);
+            return "user/userDetails"; // Назначьте страницу, где будет отображаться информация о пользователе
+        } catch (Exception e) {
+            log.error("Error occurred while fetching user details", e);
+            model.addAttribute("error", "An error occurred");
+            return "error"; // Назначьте соответствующую страницу ошибки
+        }
+    }
 
 @PostMapping("/register")
 public RedirectView registerUser(@ModelAttribute UserDTO userDTO) {

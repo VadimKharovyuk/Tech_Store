@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Account</title>
+</head>
+<body>
+<h1>Welcome, <span th:text="${user.username}">Username</span>!</h1>
+<p>Email: <span th:text="${user.email}">Email</span></p>
+<p>Role: <span th:text="${user.role}">Role</span></p>
+<p>Status: <span th:text="${user.blocked ? 'Blocked' : 'Active'}">Status</span></p>
+<!-- Добавьте здесь другие данные пользователя и функционал -->
+</body>
+</html>

@@ -58,18 +58,14 @@ import java.util.List;
 @FeignClient(name = "Security", url = "http://localhost:5057")
 public interface UserFeignClient {
 
+    @GetMapping("/api/users/{username}")
+    UserDTO getUserByUsername(@PathVariable String username);
 
-    //    @PostMapping("/api/users/register")
-//    ResponseEntity<Void> registerUser(@RequestBody UserDTO userDTO);
     @PostMapping("/api/users/register")
     UserDTO registerUser(@RequestBody UserDTO userDTO);
 
     @GetMapping("/api/users/by-email")
     UserDTO getUserByEmail(@RequestParam String email);
-
-    @GetMapping("/api/users/{username}")
-    UserDTO getUserByUsername(@PathVariable String username);
-
 
     @PostMapping("/api/users/login")
     ResponseEntity<UserDTO> login(@RequestParam String username,

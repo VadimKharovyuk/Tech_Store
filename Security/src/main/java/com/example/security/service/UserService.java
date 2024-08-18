@@ -148,40 +148,20 @@ public User registerUser(User user) {
         return user != null && user.isBlocked();
     }
 
-
-
-    public UserDTO findByUsernameDto(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user != null) {
-            UserDTO userDTO = new UserDTO();
-            userDTO.setId(user.getId());
-            userDTO.setUsername(user.getUsername());
-            userDTO.setEmail(user.getEmail());
-            userDTO.setRole(user.getRole().name());
-            userDTO.setPassword(user.getPassword());
-            return userDTO;
-        }
-        return null;
-    }
     public BCryptPasswordEncoder getPasswordEncoder() {
         return (BCryptPasswordEncoder) passwordEncoder;
-    }
-
-
-
-    public ResponseEntity<Void> deleteUserById(Long id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Возвращаем статус 404 Not Found, если пользователь не найден
-        }
     }
 
 
     public Optional<UserDTO> findUserByEmail(String email) {
         return userRepository.findByEmail(email).map(this::convertToDTO);
     }
+
+    public UserDTO findByUsernameDto(String username) {
+        User user = userRepository.findByUsername(username);
+        return user != null ? convertToDTO(user) : null;
+    }
+
 
     private UserDTO convertToDTO(User user) {
         UserDTO dto = new UserDTO();

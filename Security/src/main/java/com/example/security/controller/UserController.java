@@ -18,6 +18,27 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
+//    @GetMapping("/{username}")
+//    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
+//        log.info("Received request to get user by username: {}", username);
+//        UserDTO userDTO = userService.findByUsernameDto(username);
+//        if (userDTO == null) {
+//            log.warn("User not found for username: {}", username);
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+//        }
+//        return ResponseEntity.ok(userDTO);
+//    }
+@GetMapping("/{username}")
+public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
+    log.info("Received request to get user by username: {}", username);
+    UserDTO userDTO = userService.findByUsernameDto(username);
+    if (userDTO == null) {
+        log.warn("User not found for username: {}", username);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+    return ResponseEntity.ok(userDTO);
+}
+
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         if (userService.existsByEmail(user.getEmail())) {
@@ -33,29 +54,6 @@ public class UserController {
         return userService.findUserByEmail(email)
                 .map(userDTO -> ResponseEntity.ok(userDTO))
                 .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-//    @PostMapping("/register")
-//    public ResponseEntity<User> registerUser(@RequestBody User user) {
-//        if (userService.existsByEmail(user.getEmail())) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                    .body(null); // Вернуть код ошибки без тела ответа
-//        }
-//        User newUser = userService.registerUser(user);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
-//    }
-
-
-
-    @GetMapping("/{username}")
-    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
-        log.info("Received request to get user by username: {}", username);
-        UserDTO userDTO = userService.findByUsernameDto(username);
-        if (userDTO == null) {
-            log.warn("User not found for username: {}", username);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-        return ResponseEntity.ok(userDTO);
     }
 
 

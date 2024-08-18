@@ -11,67 +11,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
-//
-//package com.example.webservice.config;
-//
-//import com.example.webservice.repository.UserFeignClient;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.web.SecurityFilterChain;
-//import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-//import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
-//
-//@Configuration
-//@EnableWebSecurity
-//public class SecurityConfig {
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeHttpRequests(authz -> authz
-//                        .requestMatchers("/api/users/register", "/api/users/login", "/blocked","/login").permitAll()
-//                        .requestMatchers("/register", "/","/pic/**","/login").permitAll()
-//
-//                        .requestMatchers("/categories/add", "/products/add", "/account/**", "/users/change-password", "/cart/add-to-cart", "/cart").authenticated()
-//                        .anyRequest().permitAll()
-//                )
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-//                        .defaultSuccessUrl("/", true)
-//                        .failureUrl("/login?error=true")
-//                        .permitAll()
-//                )
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .logoutSuccessUrl("/")
-//                        .permitAll()
-//                )
-//                .oauth2Login(oauth2 -> oauth2
-//                        .loginPage("/login")
-//                        .defaultSuccessUrl("/", true)
-//                        .failureUrl("/blocked")
-//                        .permitAll()
-//                )
-//                .exceptionHandling(exception -> exception
-//                        .accessDeniedPage("/error")
-//                )
-//                .csrf().disable(); // Consider enabling CSRF for better security
-//
-//        return http.build();
-//    }
-//
-//    @Bean
-//    public LogoutSuccessHandler logoutSuccessHandler() {
-//        return new SimpleUrlLogoutSuccessHandler();
-//    }
-//
-//    @Bean
-//    public CustomAuthenticationProvider customAuthenticationProvider(UserFeignClient userFeignClient) {
-//        return new CustomAuthenticationProvider(userFeignClient);
-//    }
-//}
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -126,4 +65,5 @@ public class SecurityConfig {
     public CustomAuthenticationProvider customAuthenticationProvider(UserFeignClient userFeignClient) {
         return new CustomAuthenticationProvider(userFeignClient);
     }
+
 }

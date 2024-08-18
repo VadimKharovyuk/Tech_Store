@@ -26,40 +26,72 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public CustomAuthenticationProvider(UserFeignClient userFeignClient) {
         this.userFeignClient = userFeignClient;
     }
+//
+//@Override
+//public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+//    String username = authentication.getName();
+//    String password = (String) authentication.getCredentials();
+//    try {
+//        UserDTO userDTO = userFeignClient.getUserByUsername(username);
+//
+//        if (userDTO != null) {
+//            boolean passwordMatches = userDTO.getPassword().equals(password);
+//
+//            if (passwordMatches) {
+//                SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userDTO.getRole());
+//                List<SimpleGrantedAuthority> authorities = Collections.singletonList(authority);
+//
+//                UserDetails userDetails = org.springframework.security.core.userdetails.User
+//                        .withUsername(userDTO.getUsername())
+//                        .password(userDTO.getPassword())
+//                        .authorities(authorities)
+//                        .build();
+//
+//                return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+//            } else {
+//                throw new BadCredentialsException("Invalid credentials");
+//            }
+//        } else {
+//            throw new BadCredentialsException("User details are missing");
+//        }
+//    } catch (FeignException e) {
+//        throw new BadCredentialsException("Authentication failed", e);
+//    }
+//}
+@Override
+public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    String username = authentication.getName(); // Это возвращает то, что было установлено
+    String password = (String) authentication.getCredentials();
+    try {
+        UserDTO userDTO = userFeignClient.getUserByUsername(username);
 
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String username = authentication.getName();
-        String password = (String) authentication.getCredentials();
-        try {
-            // Получение информации о пользователе
-            UserDTO userDTO = userFeignClient.getUserByUsername(username);
+        if (userDTO != null) {
+            // Проверьте, правильно ли происходит проверка пароля
+            boolean passwordMatches = userDTO.getPassword().equals(password); // Пример: для зашифрованных паролей используется другой метод
 
-            if (userDTO != null) {
-                // Проверьте, правильно ли происходит проверка пароля
-                boolean passwordMatches = userDTO.getPassword().equals(password); // Пример: для зашифрованных паролей используется другой метод
+            if (passwordMatches) {
+                SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userDTO.getRole());
+                List<SimpleGrantedAuthority> authorities = Collections.singletonList(authority);
 
-                if (passwordMatches) {
-                    SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userDTO.getRole());
-                    List<SimpleGrantedAuthority> authorities = Collections.singletonList(authority);
+                UserDetails userDetails = org.springframework.security.core.userdetails.User
+                        .withUsername(userDTO.getUsername())
+                        .password(userDTO.getPassword()) // Убедитесь, что пароль зашифрован
+                        .authorities(authorities)
+                        .build();
 
-                    UserDetails userDetails = org.springframework.security.core.userdetails.User
-                            .withUsername(userDTO.getUsername())
-                            .password(userDTO.getPassword()) // Убедитесь, что пароль зашифрован
-                            .authorities(authorities)
-                            .build();
-
-                    return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-                } else {
-                    throw new BadCredentialsException("Invalid credentials");
-                }
+                return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
             } else {
-                throw new BadCredentialsException("User details are missing");
+                throw new BadCredentialsException("Invalid credentials");
             }
-        } catch (FeignException e) {
-            throw new BadCredentialsException("Authentication failed", e);
+        } else {
+            throw new BadCredentialsException("User details are missing");
         }
+    } catch (FeignException e) {
+        throw new BadCredentialsException("Authentication failed", e);
     }
+}
+
+
 
     @Override
     public boolean supports(Class<?> authentication) {
