@@ -129,6 +129,7 @@ public String addProductToCart(@ModelAttribute CartItemDto cartItemDto, Redirect
 //            return "error"; // имя HTML-шаблона для ошибки
 //        }
 //    }
+
 @GetMapping
 public String getCart(Model model) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
