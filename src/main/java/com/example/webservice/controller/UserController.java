@@ -140,8 +140,6 @@ public class UserController {
     }
 
 
-
-
     @GetMapping("/user/{username}")
     public String testGetUserByUsername(@PathVariable String username, Model model) {
         try {
