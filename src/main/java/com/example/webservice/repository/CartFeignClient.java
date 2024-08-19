@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@FeignClient(name = "cart-service")
+@FeignClient(name = "CART-SERVIS")
 public interface CartFeignClient {
 
     @PostMapping("/carts/items")
