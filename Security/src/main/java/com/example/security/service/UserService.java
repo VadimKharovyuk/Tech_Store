@@ -9,6 +9,11 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +30,24 @@ public class UserService {
     @Getter
     private final PasswordEncoder passwordEncoder;
     private final EmailFeignClient emailFeignClient;
+    private final AuthenticationManager authenticationManager;
+
+
+
+    public UserDTO login(String username, String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        User user = userRepository.findByUsername(username);
+
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadCredentialsException("Invalid credentials");
+        }
+
+        return convertToDTO(user);
+    }
+
 
 
     public List<User> findAll() {
@@ -126,17 +149,26 @@ public class UserService {
     }
 
 
-    private UserDTO convertToDTO(User user) {
-        UserDTO dto = new UserDTO();
-        dto.setId(user.getId());
-        dto.setUsername(user.getUsername());
-        dto.setEmail(user.getEmail());
-        dto.setRole(user.getRole().name()); // Преобразование перечисления в строку
-        dto.setBlocked(user.isBlocked());
-        // Не храните пароль в DTO по соображениям безопасности
-        return dto;
-    }
-
+//    private UserDTO convertToDTO(User user) {
+//        UserDTO dto = new UserDTO();
+//        dto.setId(user.getId());
+//        dto.setUsername(user.getUsername());
+//        dto.setEmail(user.getEmail());
+//        dto.setRole(user.getRole().name()); // Преобразование перечисления в строку
+//        dto.setBlocked(user.isBlocked());
+//        // Не храните пароль в DTO по соображениям безопасности
+//        return dto;
+//    }
+private UserDTO convertToDTO(User user) {
+    return UserDTO.builder()
+            .id(user.getId())
+            .password(user.getPassword())
+            .username(user.getUsername())
+            .email(user.getEmail())
+            .role(user.getRole().name())
+            .blocked(user.isBlocked())
+            .build();
+}
     private User convertToEntity(UserDTO userDTO) {
         User user = new User();
         user.setId(userDTO.getId());
@@ -167,6 +199,7 @@ public class UserService {
             return null;
         }
     }
+
 
 
 }

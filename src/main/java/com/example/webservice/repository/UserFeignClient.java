@@ -48,6 +48,7 @@
 package com.example.webservice.repository;
 
 import com.example.webservice.config.FeignConfig;
+import com.example.webservice.dto.LoginRequest;
 import com.example.webservice.dto.UserDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +59,9 @@ import java.util.List;
 @FeignClient(name = "Security", url = "http://localhost:5057")
 public interface UserFeignClient {
 
+    @PostMapping("/api/users/login")
+    ResponseEntity<UserDTO> login(@RequestBody LoginRequest loginRequest);
+
     @GetMapping("/api/users/{username}")
     UserDTO getUserByUsername(@PathVariable String username);
 
@@ -67,9 +71,7 @@ public interface UserFeignClient {
     @GetMapping("/api/users/by-email")
     UserDTO getUserByEmail(@RequestParam String email);
 
-    @PostMapping("/api/users/login")
-    ResponseEntity<UserDTO> login(@RequestParam String username,
-                                  @RequestParam String password);
+
 
     @GetMapping("/api/users")
     List<UserDTO> getAllUsers();

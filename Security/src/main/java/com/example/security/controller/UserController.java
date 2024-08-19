@@ -1,6 +1,7 @@
 
 package com.example.security.controller;
 
+import com.example.security.dto.LoginRequest;
 import com.example.security.dto.UserDTO;
 import com.example.security.model.User;
 import com.example.security.service.UserService;
@@ -18,6 +19,16 @@ import java.util.List;
 @Slf4j
 public class UserController {
     private final UserService userService;
+
+    @PostMapping("/login")
+    public ResponseEntity<UserDTO> login(@RequestBody LoginRequest loginRequest) {
+        try {
+            UserDTO user = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
 
 
     @GetMapping("/{username}")
@@ -49,21 +60,21 @@ public class UserController {
     }
 
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
-        UserDTO user = userService.getUserByUsername(username);
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
-        }
-        if (user.isBlocked()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is blocked");
-        }
-        boolean passwordMatches = userService.getPasswordEncoder().matches(password, user.getPassword());
-        if (!passwordMatches) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-        }
-        return ResponseEntity.ok("Login successful");
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+//        UserDTO user = userService.getUserByUsername(username);
+//        if (user == null) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+//        }
+//        if (user.isBlocked()) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is blocked");
+//        }
+//        boolean passwordMatches = userService.getPasswordEncoder().matches(password, user.getPassword());
+//        if (!passwordMatches) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+//        }
+//        return ResponseEntity.ok("Login successful");
+//    }
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {

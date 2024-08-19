@@ -1,9 +1,12 @@
 package com.example.webservice.config;
 
+import com.example.webservice.dto.LoginRequest;
 import com.example.webservice.dto.UserDTO;
 import com.example.webservice.repository.UserFeignClient;
 import feign.FeignException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,10 +15,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+@Slf4j
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -29,14 +35,24 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 @Override
 public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-    String username = authentication.getName(); // Это возвращает то, что было установлено
+    String username = authentication.getName();
     String password = (String) authentication.getCredentials();
-    try {
-        UserDTO userDTO = userFeignClient.getUserByUsername(username);
 
-        if (userDTO != null) {
-            // Проверьте, правильно ли происходит проверка пароля
-            boolean passwordMatches = userDTO.getPassword().equals(password); // Пример: для зашифрованных паролей используется другой метод
+
+    try {
+        LoginRequest loginRequest = new LoginRequest(username, password); // Создаем объект LoginRequest
+        ResponseEntity<UserDTO> response = userFeignClient.login(loginRequest);
+
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+            UserDTO userDTO = response.getBody();
+            String storedPassword = userDTO.getPassword();
+            if (storedPassword == null) {
+                throw new BadCredentialsException("Password is missing in user details");
+            }
+
+            // Если пароли хранятся в зашифрованном виде
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            boolean passwordMatches = passwordEncoder.matches(password, storedPassword);
 
             if (passwordMatches) {
                 SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userDTO.getRole());
@@ -44,7 +60,7 @@ public Authentication authenticate(Authentication authentication) throws Authent
 
                 UserDetails userDetails = org.springframework.security.core.userdetails.User
                         .withUsername(userDTO.getUsername())
-                        .password(userDTO.getPassword()) // Убедитесь, что пароль зашифрован
+                        .password(storedPassword) // Если пароль зашифрован, используйте зашифрованный
                         .authorities(authorities)
                         .build();
 
@@ -53,13 +69,12 @@ public Authentication authenticate(Authentication authentication) throws Authent
                 throw new BadCredentialsException("Invalid credentials");
             }
         } else {
-            throw new BadCredentialsException("User details are missing");
+            throw new BadCredentialsException("User details are missing or login failed");
         }
     } catch (FeignException e) {
         throw new BadCredentialsException("Authentication failed", e);
     }
 }
-
 
 
     @Override
