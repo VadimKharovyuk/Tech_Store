@@ -1,3 +1,4 @@
+
 package com.example.security.controller;
 
 import com.example.security.dto.UserDTO;
@@ -18,26 +19,17 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-//    @GetMapping("/{username}")
-//    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
-//        log.info("Received request to get user by username: {}", username);
-//        UserDTO userDTO = userService.findByUsernameDto(username);
-//        if (userDTO == null) {
-//            log.warn("User not found for username: {}", username);
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//        }
-//        return ResponseEntity.ok(userDTO);
-//    }
-@GetMapping("/{username}")
-public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
-    log.info("Received request to get user by username: {}", username);
-    UserDTO userDTO = userService.findByUsernameDto(username);
-    if (userDTO == null) {
-        log.warn("User not found for username: {}", username);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+    @GetMapping("/{username}")
+    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
+        log.info("Received request to get user by username: {}", username);
+        UserDTO userDTO = userService.findByUsernameDto(username);
+        if (userDTO == null) {
+            log.warn("User not found for username: {}", username);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(userDTO);
     }
-    return ResponseEntity.ok(userDTO);
-}
 
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
@@ -80,8 +72,6 @@ public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) 
     }
 
 
-
-
     @PutMapping("/change-password")
     public ResponseEntity<String> changePassword(
             @RequestParam String username,
@@ -114,8 +104,6 @@ public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) 
         boolean blocked = userService.isBlocked(username);
         return ResponseEntity.ok(blocked);
     }
-
-
 
 
 }

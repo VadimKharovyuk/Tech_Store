@@ -9,8 +9,6 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,72 +24,38 @@ public class UserService {
     private final UserRepository userRepository;
     @Getter
     private final PasswordEncoder passwordEncoder;
-    private final EmailFeignClient  emailFeignClient;
+    private final EmailFeignClient emailFeignClient;
 
 
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-//
-//    public User registerUser(User user) {
-//        if (userRepository.existsByEmail(user.getEmail())) {
-//            throw new RuntimeException("Email already exists");
-//        }
-//
-//        // Отладка: проверка пароля
-//        if (user.getPassword() == null) {
-//            log.warn("Password is null for user: {}", user.getEmail());
-//            user.setPassword("OAuth2User_" + UUID.randomUUID().toString());
-//        }
-//
-//        // Хэширование пароля и установка роли
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        user.setRole(User.Role.USER);
-//
-//        // Сохранение пользователя
-//        User newUser = userRepository.save(user);
-//
-//        // Отправка email-письма
-//        EmailRequest emailRequest = new EmailRequest(newUser.getEmail(), "Welcome!", "Dear " + newUser.getUsername() + ", welcome to our store!");
-//        try {
-//            emailFeignClient.sendEmail(emailRequest);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return newUser;
-//    }
-public User registerUser(User user) {
-    if (userRepository.existsByEmail(user.getEmail())) {
-        throw new RuntimeException("Email already exists");
+    public User registerUser(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        } else {
+            user.setPassword("OAuth2User_" + UUID.randomUUID().toString());
+        }
+
+        user.setRole(User.Role.USER);
+
+        User newUser = userRepository.save(user);
+
+        // Отправка email-письма
+        EmailRequest emailRequest = new EmailRequest(newUser.getEmail(), "Welcome!", "Dear " + newUser.getUsername() + ", welcome to our store!");
+        try {
+            emailFeignClient.sendEmail(emailRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return newUser;
     }
-
-    if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-    } else {
-        user.setPassword("OAuth2User_" + UUID.randomUUID().toString());
-    }
-
-    user.setRole(User.Role.USER);
-
-    User newUser = userRepository.save(user);
-
-    // Отправка email-письма
-    EmailRequest emailRequest = new EmailRequest(newUser.getEmail(), "Welcome!", "Dear " + newUser.getUsername() + ", welcome to our store!");
-    try {
-        emailFeignClient.sendEmail(emailRequest);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    return newUser;
-}
-
-
-
-
-
 
 
     public User findByUsername(String username) {
@@ -102,7 +66,6 @@ public User registerUser(User user) {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
-
 
 
     @Transactional
@@ -206,8 +169,5 @@ public User registerUser(User user) {
     }
 
 
-
-
 }
-
 

@@ -1,5 +1,4 @@
 package com.example.security.config;
-
 import com.example.security.config.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

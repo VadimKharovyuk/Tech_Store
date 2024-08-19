@@ -26,38 +26,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public CustomAuthenticationProvider(UserFeignClient userFeignClient) {
         this.userFeignClient = userFeignClient;
     }
-//
-//@Override
-//public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-//    String username = authentication.getName();
-//    String password = (String) authentication.getCredentials();
-//    try {
-//        UserDTO userDTO = userFeignClient.getUserByUsername(username);
-//
-//        if (userDTO != null) {
-//            boolean passwordMatches = userDTO.getPassword().equals(password);
-//
-//            if (passwordMatches) {
-//                SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userDTO.getRole());
-//                List<SimpleGrantedAuthority> authorities = Collections.singletonList(authority);
-//
-//                UserDetails userDetails = org.springframework.security.core.userdetails.User
-//                        .withUsername(userDTO.getUsername())
-//                        .password(userDTO.getPassword())
-//                        .authorities(authorities)
-//                        .build();
-//
-//                return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-//            } else {
-//                throw new BadCredentialsException("Invalid credentials");
-//            }
-//        } else {
-//            throw new BadCredentialsException("User details are missing");
-//        }
-//    } catch (FeignException e) {
-//        throw new BadCredentialsException("Authentication failed", e);
-//    }
-//}
+
 @Override
 public Authentication authenticate(Authentication authentication) throws AuthenticationException {
     String username = authentication.getName(); // Это возвращает то, что было установлено

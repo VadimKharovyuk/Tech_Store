@@ -37,6 +37,42 @@ public class AccountController {
 //    return "account/account";
 //}
 
+//    @GetMapping("/account")
+//    public String accountUser(Model model) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username;
+//        String email;
+//        String role;
+//
+//        // Проверьте, что authentication содержит OAuth2User
+//        if (authentication.getPrincipal() instanceof OAuth2User) {
+//            OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
+//            username = oauthUser.getAttribute("name");
+//            email = oauthUser.getAttribute("email");
+//            role = "USER"; // Вы можете определить роль как "USER" по умолчанию или на основе другой логики
+//        } else {
+//            // Если не OAuth2User, используйте имя пользователя из контекста безопасности
+//            username = authentication.getName();
+//            email = "unknown"; // Или другой способ получения email
+//            role = "USER"; // Или другая логика для роли
+//        }
+//
+//        boolean isAdmin = authentication.getAuthorities().stream()
+//                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+//
+//        // Создание объекта UserDTO
+//        UserDTO userDTO = new UserDTO();
+//        userDTO.setUsername(username);
+//        userDTO.setEmail(email);
+//        userDTO.setRole(isAdmin ? "ADMIN" : role);
+//        userDTO.setBlocked(false); // Установите значение по умолчанию или получите его из базы данных
+//
+//        model.addAttribute("user", userDTO);
+//        model.addAttribute("name", username);
+//
+//        return "account/account";
+//    }
+
     @GetMapping("/account")
     public String accountUser(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -72,6 +108,8 @@ public class AccountController {
 
         return "account/account";
     }
+
+
 
 
 
