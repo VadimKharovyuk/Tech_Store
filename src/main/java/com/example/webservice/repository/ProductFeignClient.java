@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@FeignClient(name = "product-service")
+@FeignClient(name = "PRODUCT-REVIEW")
 public interface ProductFeignClient {
     @GetMapping("/api/products")
     List<Product> getAllProducts();
