@@ -1,4 +1,5 @@
 package com.example.webservice.config;
+import com.example.webservice.dto.CartItemDto;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -9,4 +10,10 @@ public class KafkaConsumer {
 
           System.out.println("Received product: " + masagge);
      }
+     @KafkaListener(topics = "cart-topic", groupId = "web-service-group")
+     public void listenCard(String cartItemDto) {
+          System.out.println("Received cart item: " + cartItemDto);
+     }
+
+
 }

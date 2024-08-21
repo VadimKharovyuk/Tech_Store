@@ -2,7 +2,9 @@ package com.example.cartservis.controller;
 
 import com.example.cartservis.dto.CartDto;
 import com.example.cartservis.dto.CartItemDto;
+import com.example.cartservis.kafka.CartProducer;
 import com.example.cartservis.service.CartService;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/carts")
+@AllArgsConstructor
 public class CartController {
 
     private static final Logger logger = LoggerFactory.getLogger(CartController.class);
-
-    @Autowired
-    private CartService cartService;
+    private final CartProducer cartProducer;
+    private final CartService cartService;
 
     // Получить корзину по userId
     @GetMapping("/{userId}")
@@ -36,6 +38,8 @@ public class CartController {
 
     @PostMapping("/items")
     public ResponseEntity<Void> addItemToCart(@RequestBody CartItemDto cartItemDto) {
+        cartProducer.sendAddToCartEvent(cartItemDto);
+
         try {
             cartService.addItemToCart(cartItemDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -47,6 +51,8 @@ public class CartController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Ошибка сервера
         }
     }
+
+
     @PostMapping("/items/{itemId}")
     public ResponseEntity<Void> removeItemFromCart(@PathVariable Long itemId, @RequestParam Long userId) {
         try {

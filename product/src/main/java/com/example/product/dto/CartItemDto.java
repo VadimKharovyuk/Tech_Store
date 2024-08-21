@@ -1,5 +1,6 @@
 package com.example.product.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,10 +14,11 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartItemDto {
+
     private Long id;
     private Long productId;
     private String productName;
+    private BigDecimal price;
     private int quantity;
-    private Long userId; // Поле userId, если нужно
-    private BigDecimal price; // Поле price
+    private Long userId;
 }
