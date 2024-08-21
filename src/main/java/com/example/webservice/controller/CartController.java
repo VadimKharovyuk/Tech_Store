@@ -74,6 +74,7 @@ public String addProductToCart(@ModelAttribute CartItemDto cartItemDto, Redirect
         String username;
         Long userId;
 
+
         if (authentication.getPrincipal() instanceof OAuth2User) {
             OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
             username = oauthUser.getAttribute("name");

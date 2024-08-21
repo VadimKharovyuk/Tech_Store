@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,23 +56,33 @@ public class UserController {
     }
 
 
-    @GetMapping("/ac")
-    public String accountUser(Model model, Authentication authentication) {
+@GetMapping("/ac")
+public String accountUser(Model model, Authentication authentication) {
+    String username;
+
+    if (authentication.getPrincipal() instanceof OAuth2User) {
         OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
-        String username = oauthUser.getAttribute("name"); // Используйте правильный атрибут, соответствующий вашему OAuth2 провайдеру
-        System.out.println("Retrieved username: " + username);
-        try {
-            UserDTO userDTO = userFeignClient.getUserByUsername(username);
-            if (userDTO == null) {
-                return "redirect:/error";
-            }
-            model.addAttribute("user", userDTO);
-            return "user/ac";
-        } catch (Exception e) {
-            log.error("Error retrieving user details", e);
+        username = oauthUser.getAttribute("name");
+    } else {
+        username = authentication.getName();
+    }
+
+    System.out.println("Retrieved username: " + username);
+
+    try {
+        UserDTO userDTO = userFeignClient.getUserByUsername(username);
+        if (userDTO == null) {
             return "redirect:/error";
         }
+        model.addAttribute("user", userDTO);
+        return "user/ac";
+    } catch (Exception e) {
+        log.error("Error retrieving user details", e);
+        return "redirect:/error";
     }
+}
+
+
 
 
     @GetMapping("/user/{username}")
